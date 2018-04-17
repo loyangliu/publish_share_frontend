@@ -1,0 +1,13 @@
+<!--pages/publish/publish.wxml-->
+<view class="publish-header">
+  <button size="mini">取消</button>
+  <button size="mini" type="primary" class="btn-publish">发布</button>
+</view>
+
+<view>
+  <textarea value='' maxlength="-1" auto-focus="true" style='padding:10px;height:1000rpx;'></textarea>
+</view>
+
+<view>
+
+</view>

@@ -1,0 +1,32 @@
+<!--index.wxml-->
+<view wx:for="{{ [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] }}" class="detail">
+    <view class="detail-header">
+      <view class="detail-header-left">
+        <image src="/images/avatar.jpg" mode="aspectFit" class="detail-header-avatar"></image> 
+      </view>
+      <view class="detail-header-right">
+        <view class="detail-from">
+          <text>咨询分享平台</text>
+        </view>
+         <view class="detail-time">
+          <text>2小时前</text>
+        </view> 
+      </view>
+    </view>
+    <view class="detail-body">
+      <text>到底什么是【区块链】？看完这些你就明白了
+1、区块链入门：O网页链接
+2、区块链就是炒币？：O网页链接
+3、比特币中的术语：O网页链接
+4、以太坊（一）：O网页链接
+5、创建第一个区块链应用：O网页链接 
+6、更多潮流技术：O网页链接 ​​​​</text>
+
+      <view class="detail-body-images">
+        <image wx:for="{{ [1,2,3,4,5,6,7,8,9] }}" src="/images/2.jpg" mode="aspectFill" class="detail-body-image"></image>
+      </view>
+    </view>
+    <view class="detail-footer">
+      
+    </view>
+</view>

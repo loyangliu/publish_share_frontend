@@ -1,0 +1,54 @@
+/**index.wxss**/
+.detail{
+  background-color: #fff;
+  margin-bottom:20rpx;
+  padding:0 20rpx;
+}
+
+ .detail-header{
+  padding-top:20rpx;
+  display:flex;
+}
+
+.detail-body{
+  padding:20rpx 0;
+}
+
+.detail-footer{
+  
+}
+
+.detail-header-avatar{
+  width:70rpx;
+  height:70rpx;
+  border-radius: 10rpx;
+}
+
+.detail-header-right{
+  margin-left:15rpx;
+  width:100%;
+}
+
+.detail-from{
+  margin-top:10rpx;
+  font-size:30rpx;
+  line-height: 1;
+  color:#3385FF;
+}
+
+.detail-time{
+  margin-top:10rpx;
+  font-size:20rpx;
+  color:#8a8a8a;
+  line-height: 1;
+}
+
+.detail-body-images{
+  margin-top:10rpx;
+}
+
+.detail-body-image{
+  width:225rpx;
+  height:225rpx;
+  margin-right:10rpx; 
+}
