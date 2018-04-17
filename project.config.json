@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -13,7 +13,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.98",
 	"appid": "wxbca0fbd15a965bdf",
-	"projectname": "share_platform",
+	"projectname": "psf",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
@@ -38,7 +38,8 @@
 				{
 					"id": -1,
 					"name": "发布",
-					"pathName": "pages/publish/publish"
+					"pathName": "pages/publish/publish",
+					"query": ""
 				}
 			]
 		}
