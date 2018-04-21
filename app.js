@@ -1,6 +1,7 @@
 //app.js
+var common = require('common.js')
+
 App({
-  data: {
-    
+  onLaunch(){
   }
 })

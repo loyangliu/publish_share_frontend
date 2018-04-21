@@ -1,9 +1,10 @@
 //index.js
-//获取应用实例
-const app = getApp()
+var auth = require('../../common/auth.js')
 
 Page({
   data: {
     message: 'hello'
+  },
+  onLoad: function () {
   }
 })

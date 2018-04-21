@@ -2,7 +2,8 @@
   "pages":[
     "pages/index/index",
     "pages/logs/logs",
-    "pages/publish/publish"
+    "pages/publish/publish",
+    "pages/login/login"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -25,12 +26,6 @@
         "text": "发布",
         "iconPath": "images/brush.png",
         "selectedIconPath": "images/brush_fill.png"
-      },
-      {
-        "pagePath": "pages/index/index",
-        "text": "消息",
-        "iconPath": "images/message.png",
-        "selectedIconPath": "images/message_fill.png"
       },
       {
         "pagePath": "pages/logs/logs",

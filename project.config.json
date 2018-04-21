@@ -11,7 +11,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.98",
+	"libVersion": "2.0.0",
 	"appid": "wxbca0fbd15a965bdf",
 	"projectname": "psf",
 	"isGameTourist": false,
