@@ -1,7 +1,7 @@
 var user;
 
 // 跳转到登录页
-function redirectToLogin(){  
+function redirectToLogin(){
   wx.navigateTo({
     url: '/pages/login/login',
   });
@@ -14,13 +14,20 @@ function check(){
 
 // 未登录，则跳转登录页
 function guard(){
+  // todo
+  return;
   if (!this.check()) {
-    this.redirectToLogin();
+    this.login();
   }
 }
 
+// 获取api token
+function apiToken(){
+  return this.user ? this.user.api_token : null;
+};
+
 // 登录
-function login(success){
+function login(){
 
   wx.showLoading({
     title: '登录中',
@@ -64,8 +71,6 @@ function login(success){
               // 存储用户信息
               this.user = data.data.user;
 
-              success();
-
               wx.hideLoading();
 
               wx.showToast({
@@ -91,6 +96,8 @@ exports.login = login
 
 // 拦截未登录请求
 exports.guard = guard
+
+exports.apiToken = apiToken
 
 // 跳转登录页
 exports.redirectToLogin = redirectToLogin

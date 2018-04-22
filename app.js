@@ -1,7 +1,9 @@
 //app.js
 var common = require('common.js')
 
+const HOST = 'http://psw.test';
+const API_URL = HOST + '/api';
+
 App({
-  onLaunch(){
-  }
+  API_URL:API_URL,
 })

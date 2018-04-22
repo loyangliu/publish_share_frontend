@@ -1,54 +1,120 @@
-/**index.wxss**/
-.detail{
+.top-menu{
+  height:100rpx;
+}
+
+.article{
   background-color: #fff;
   margin-bottom:20rpx;
-  padding:0 20rpx;
+  padding:20rpx;
 }
 
- .detail-header{
-  padding-top:20rpx;
-  display:flex;
+.article-header{
+  width:100%;
+  overflow: hidden;
 }
 
-.detail-body{
-  padding:20rpx 0;
+.article-body{
+  margin-top:20rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
 }
 
-.detail-footer{
+.article-header-center{
+  margin-left:20rpx;
+  float:left;
+  width:400rpx;
+}
+
+.article-header-right{
+  width:200rpx;
+  float:right;
+  text-align: right;
   
 }
 
-.detail-header-avatar{
+.article-header-left{
   width:70rpx;
   height:70rpx;
+  float:left;
+}
+
+.article-user-avatar{
+  width:100%;
+  height:100%;
   border-radius: 10rpx;
 }
 
-.detail-header-right{
-  margin-left:15rpx;
-  width:100%;
-}
-
-.detail-from{
-  margin-top:10rpx;
+.article-user-name{
   font-size:30rpx;
-  line-height: 1;
   color:#3385FF;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
-.detail-time{
-  margin-top:10rpx;
+.article-publish-time{
   font-size:20rpx;
   color:#8a8a8a;
-  line-height: 1;
+  margin-top:5rpx;
 }
 
-.detail-body-images{
-  margin-top:10rpx;
+.article-images{
+  margin-top:-2%;
+  overflow:hidden;
+  padding-top:20rpx;
+}
+.article-images>.item{
+  width:32%;
+  height:32vw; 
+  display:block;
+  float:left;
+  margin-top:2%;
+}
+.article-images>.item-interval{
+  margin-right:2%;
+}
+.article-images>.item>image{
+  width:100%;
+  height:100%;
 }
 
-.detail-body-image{
-  width:225rpx;
-  height:225rpx;
-  margin-right:10rpx; 
+/* 图片浏览 */
+.browse-images{
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  z-index:100;
+}
+
+.browse-images>.backdrop{
+  position:absolute;
+  top:0;
+  left:0;
+  opacity: 0.5;
+  width:100%;
+  height:100%;
+  background:#000;
+  z-index:101;
+}
+
+.browse-images>.browse-image{
+  position:absolute;
+  width:100%;
+  height:100%;
+  z-index:102;
+  top:0;
+  left:0;
+  overflow:auto;
+  display:flex;/*Flex布局*/
+  align-items: center;/*垂直居中*/
+  justify-content: center;/*水平居中*/
+}
+
+.browse-image>.image{
+  max-width:100%;
+  position: absolute;
 }
