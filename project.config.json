@@ -1,4 +1,5 @@
 {
+  "qcloudRoot": "./psw",
 	"description": "项目配置文件。",
 	"packOptions": {
 		"ignore": []
@@ -39,6 +40,12 @@
 					"id": -1,
 					"name": "发布",
 					"pathName": "pages/publish/publish",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "我的",
+					"pathName": "pages/mine/mine",
 					"query": ""
 				}
 			]

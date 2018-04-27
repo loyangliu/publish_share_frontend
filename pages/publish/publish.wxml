@@ -1,7 +1,7 @@
 <form class="form-publish" bindsubmit="uploadImageSubmitPublish">
   <view class="view-publish">
     <view class="view-name">
-      <input name="name" value="{{ name }}" placeholder="请输入物品名称" class="input-name" auto-focus="true"></input>
+      <input name="name" value="{{ name }}" placeholder="请输入物品名称" class="input-name"></input>
     </view>
 
     <view class="view-description">

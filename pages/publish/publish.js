@@ -1,6 +1,7 @@
 // pages/publish/publish.js
 var auth = require('../../common/auth.js')
-var app = getApp();
+var api = require('../../common/api.js');
+var config = require('../../common/config.js');
 
 Page({
   data:{
@@ -11,7 +12,8 @@ Page({
     isCanChooseImage: true, // 是否可以继续选择图片
   },
 
-  onShow: function () {
+  onShow: function(){
+    // 此页需要登录才能访问
     auth.guard();
   },
 
@@ -148,13 +150,10 @@ Page({
     };
 
     // 提交发布
-    wx.request({
-      url: app.API_URL + '/article/publish',
+    api.request({
+      url: 'articles/publish',
       method: 'POST',
       data: formData,
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
       success: (res) => {
 
         wx.hideLoading();
@@ -215,10 +214,10 @@ Page({
     }
 
     wx.uploadFile({
-      url: app.API_URL + '/api/article/uploadImage',
+      url: api.getUrl('articles/uploadImage'),
       filePath: image.src,
       formData:{
-        apiToken:auth.apiToken()
+        api_token:auth.apiToken()
       },
       name: 'image',
       complete: (res) => {
@@ -259,14 +258,18 @@ Page({
     wx.showModal({
       title:'重置表单',
       content: '确定要清空输入的内容吗？',
-      success: () => {
-        this.setData({
-          name: '',
-          description: '',
-          images: []
-        });
+      success: (res) => {
 
-        this.openImageChoose();
+        if (res.confirm){
+          this.setData({
+            name: '',
+            description: '',
+            images: []
+          });
+
+          this.openImageChoose();
+        }
+
       }
     });
   }

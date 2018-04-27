@@ -1,4 +1,6 @@
-var user;
+var api = require('./api.js');
+
+var user = null;
 
 // 跳转到登录页
 function redirectToLogin(){
@@ -14,9 +16,18 @@ function check(){
 
 // 未登录，则跳转登录页
 function guard(){
-  // todo
-  return;
-  if (!this.check()) {
+
+  var page = getCurrentPages()[0];
+
+  page.setData({
+    guard: true
+  });
+
+  if (this.check()) {
+    page.setData({
+      auth: this
+    });
+  }else{
     this.login();
   }
 }
@@ -53,7 +64,7 @@ function login(){
 
           wx.request({
             method: 'POST',
-            url: 'http://psw.test/api/auth/login',
+            url: api.getUrl('auth/login'),
             data: data,
             header: {
               'content-type': 'application/x-www-form-urlencoded'
@@ -61,21 +72,46 @@ function login(){
             success: (response) => {
               var data = response.data;
 
+              wx.hideLoading();
+
               // 登录失败
               if (data.code != 0){
-                wx.switchTab({
-                  url: '/pages/index/index',
-                })
+                wx.showModal({
+                  title: data.msg ? data.msg : '登录失败！',
+                  showCancel: false,
+                  success: function(){
+                    wx.switchTab({
+                      url: '/pages/index/index',
+                    })
+                  }
+                });
+                return;
               }
 
               // 存储用户信息
               this.user = data.data.user;
+
+              var page = getCurrentPages()[0];
+              page.setData({
+                auth: this
+              });
 
               wx.hideLoading();
 
               wx.showToast({
                 title: data.msg,
               })
+            },
+            fail: function(){
+              wx.showModal({
+                title: '登录失败！',
+                showCancel: false,
+                success: function () {
+                  wx.switchTab({
+                    url: '/pages/index/index',
+                  })
+                }
+              });
             }
           })
         }
