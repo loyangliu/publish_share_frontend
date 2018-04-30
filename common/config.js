@@ -1,5 +1,5 @@
 var host = wx.getSystemInfoSync().brand == 'devtools' ? "http://psw.test" : 'https://www.loyangliu.com';
-host = 'https://www.loyangliu.com';
+//host = 'https://www.loyangliu.com';
 var apiPrefix = 'api';
 var apiUrl = host + '/' + apiPrefix;
 

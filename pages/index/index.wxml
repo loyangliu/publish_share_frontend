@@ -1,47 +1,21 @@
-<view class="top-menu"></view>
-
-<view class="articles">
-  <view wx:for="{{ articles }}" class="article">
-    <!-- header -->
-    <view class="article-header">
-
-      <view class="article-header-left">
-        <image src="{{ item.user.wx_avatar_url }}" class="article-user-avatar"></image> 
-      </view>
-
-      <view class="article-header-center">
-        <view class="article-user-name">{{ item.user.wx_nick_name }}</view>
-        <view class="article-publish-time">{{ item.publish_at.diffForHumans }}</view>
-      </view>
-
-      <view class="article-header-right">
-        <button size="mini" type="primary">关注</button>
-      </view>
-    </view>
-    <!-- header # -->
-
-    <!-- body -->
-    <view class="article-body">
-      <text>{{ item.description }}</text>
-    </view>
-    <!-- body # -->
-
-    <!-- images -->
-     <view class="article-images">
-      <view wx:for="{{ item.images }}" wx:for-item="image" class="item {{ (index+1) % 3 != 0 ? 'item-interval' : '' }}">
-        <image src="{{ image.thumbnail_path }}" mode="aspectFill" class="image"></image>
-      </view>
-    </view> 
-    <!-- images -->
-  </view>
+<view class="menus">
+  <menu wx:for="{{ data }}" wx:key="{{ index }}" label="{{ item.label }}" active="{{ index == active }}" data-index="{{ index }}" bindtap="tapSwitchTab"></menu>
 </view>
 
-<!-- <view class="browse-images">
-  <view class="backdrop"></view>
-   <view class="browse-image">
-    <image src="/images/2.jpg" class="image"></image>
-   </view>
-   <view class="">
-   
-   </view>
-</view> -->
+<view class="main">
+  <view class="articles" wx:for="{{ data }}" wx:key="{{ index }}" wx:if="{{ index == active }}">
+
+    <!-- 加载中 -->
+    <view class="loading" wx:if="{{ item.loading }}">
+      加载中 . . .
+    </view>
+
+    <!-- 帖子列表 -->
+    <article wx:for="{{ item.articles }}" wx:key="{{ index }}" article="{{ item }}"></article>
+
+    <!-- 加载中 -->
+    <view class="loading" wx:if="{{ item.moreLoading }}">
+      加载中 . . .
+    </view>
+  </view>
+</view>

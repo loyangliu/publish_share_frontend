@@ -14,7 +14,7 @@ function request(option){
     option.header = {};
   }
   option.header['content-type'] = 'application/x-www-form-urlencoded';
-  wx.request(option);
+  return wx.request(option);
 };
 
 module.exports.getUrl = getUrl

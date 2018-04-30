@@ -1,120 +1,25 @@
-.top-menu{
-  height:100rpx;
-}
-
-.article{
-  background-color: #fff;
-  margin-bottom:20rpx;
-  padding:20rpx;
-}
-
-.article-header{
+/* 顶部菜单 */
+.menus{
+  background: #FFFFFF;
   width:100%;
   overflow: hidden;
+  display: flex;
+  border-top:1px solid #F6F8F9;
+  z-index:999;
+  border-bottom:20rpx solid #F6F8F9;
+  position: fixed;
+  top:0;
+  left:0;
 }
 
-.article-body{
-  margin-top:20rpx;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
-  overflow: hidden;
+/* 文章列表 */
+.main{
+  padding-top:80rpx;
 }
 
-.article-header-center{
-  margin-left:20rpx;
-  float:left;
-  width:400rpx;
-}
-
-.article-header-right{
-  width:200rpx;
-  float:right;
-  text-align: right;
-  
-}
-
-.article-header-left{
-  width:70rpx;
-  height:70rpx;
-  float:left;
-}
-
-.article-user-avatar{
-  width:100%;
-  height:100%;
-  border-radius: 10rpx;
-}
-
-.article-user-name{
+.articles .loading{
+  color:#80848f;
   font-size:30rpx;
-  color:#3385FF;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
-}
-
-.article-publish-time{
-  font-size:20rpx;
-  color:#8a8a8a;
-  margin-top:5rpx;
-}
-
-.article-images{
-  margin-top:-2%;
-  overflow:hidden;
-  padding-top:20rpx;
-}
-.article-images>.item{
-  width:32%;
-  height:32vw; 
-  display:block;
-  float:left;
-  margin-top:2%;
-}
-.article-images>.item-interval{
-  margin-right:2%;
-}
-.article-images>.item>image{
-  width:100%;
-  height:100%;
-}
-
-/* 图片浏览 */
-.browse-images{
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  z-index:100;
-}
-
-.browse-images>.backdrop{
-  position:absolute;
-  top:0;
-  left:0;
-  opacity: 0.5;
-  width:100%;
-  height:100%;
-  background:#000;
-  z-index:101;
-}
-
-.browse-images>.browse-image{
-  position:absolute;
-  width:100%;
-  height:100%;
-  z-index:102;
-  top:0;
-  left:0;
-  overflow:auto;
-  display:flex;/*Flex布局*/
-  align-items: center;/*垂直居中*/
-  justify-content: center;/*水平居中*/
-}
-
-.browse-image>.image{
-  max-width:100%;
-  position: absolute;
+  text-align:center;
+  padding:20rpx 0;
 }

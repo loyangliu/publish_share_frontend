@@ -1,5 +1,5 @@
 {
-  "qcloudRoot": "./psw",
+	"qcloudRoot": "./psw",
 	"description": "项目配置文件。",
 	"packOptions": {
 		"ignore": []

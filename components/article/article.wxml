@@ -1,0 +1,31 @@
+<view class="header">
+  <view class="left">
+    <image src="{{ article.user.wx_avatar_url }}" class="avatar"></image> 
+  </view>
+  <view class="from">
+    <view class="from-name">{{ article.user.wx_nick_name }}</view>
+    <view class="from-time">{{ article.publish_at.diffForHumans }}</view>
+  </view>
+  <view class="right">
+    <button size="mini" type="primary" bindtap="follow" data-user-id="{{ article.user.id }}">关注</button>  
+  </view>
+</view>
+
+<view class="body">
+  <text  class="content">{{ article.description }}</text>
+</view>
+
+<view class="images">
+  <image wx:for="{{ article.images }}" wx:for-item="image" src="{{ image.thumbnail_path }}" mode="aspectFill" class="image"></image>
+</view>
+
+<view class="footer">
+  <view class="item">
+    <view class="icon"><image src="/images/message.png"></image></view>
+    <view class="number">0</view>
+  </view>
+  <view class="item">
+    <view class="icon"><image src="/images/praise.png"></image></view>
+    <view class="number">0</view>
+  </view>
+</view>
