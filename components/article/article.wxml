@@ -12,7 +12,7 @@
 </view>
 
 <view class="body">
-  <text  class="content">{{ article.description }}</text>
+  <text  class="content">{{ article.content }}</text>
 </view>
 
 <view class="images">

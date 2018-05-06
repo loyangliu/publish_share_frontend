@@ -29,7 +29,7 @@ Page({
    */
   onShow: function () {
 
-    auth.guard(this);
+    //auth.guard(this);
 
     // this.setData({
     //   authUser: auth.user
@@ -39,8 +39,10 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-  
+  onHide: function (e, b) {
+    //console.log(e);
+    //console.log(b);
+    getApp().lastTab = '/pages/mine/mine';
   },
 
   /**

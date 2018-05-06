@@ -16,19 +16,8 @@ function check(){
 
 // 未登录，则跳转登录页
 function guard(){
-
-  var page = getCurrentPages()[0];
-
-  page.setData({
-    guard: true
-  });
-
-  if (this.check()) {
-    page.setData({
-      auth: this
-    });
-  }else{
-    this.login();
+  if (!this.check()) {
+    this.navigateToLogin();
   }
 }
 
@@ -36,6 +25,12 @@ function guard(){
 function apiToken(){
   return this.user ? this.user.api_token : null;
 };
+
+function navigateToLogin(){
+  wx.navigateTo({
+    url: '/pages/login/login',
+  });
+}
 
 // 登录
 function login(){
@@ -62,13 +57,10 @@ function login(){
             iv: res.iv
           };
 
-          wx.request({
+          api.request({
             method: 'POST',
-            url: api.getUrl('auth/login'),
+            url: 'auth/login',
             data: data,
-            header: {
-              'content-type': 'application/x-www-form-urlencoded'
-            },
             success: (response) => {
               var data = response.data;
 
@@ -78,11 +70,13 @@ function login(){
               if (data.code != 0){
                 wx.showModal({
                   title: data.msg ? data.msg : '登录失败！',
-                  showCancel: false,
-                  success: function(){
-                    wx.switchTab({
-                      url: '/pages/index/index',
-                    })
+                  cancelText: '返回首页',
+                  success: function(res){
+                    if (res.cancel){
+                      wx.switchTab({
+                        url: '/pages/index/index',
+                      })
+                    }
                   }
                 });
                 return;
@@ -91,25 +85,18 @@ function login(){
               // 存储用户信息
               this.user = data.data.user;
 
-              var page = getCurrentPages()[0];
-              page.setData({
-                auth: this
-              });
-
-              wx.hideLoading();
-
-              wx.showToast({
-                title: data.msg,
-              })
+              wx.navigateBack();
             },
             fail: function(){
               wx.showModal({
                 title: '登录失败！',
-                showCancel: false,
-                success: function () {
-                  wx.switchTab({
-                    url: '/pages/index/index',
-                  })
+                cancelText: '返回首页',
+                success: function (res) {
+                  if (res.cancel) {
+                    wx.switchTab({
+                      url: '/pages/index/index',
+                    })
+                  }
                 }
               });
             }
@@ -134,6 +121,8 @@ exports.login = login
 exports.guard = guard
 
 exports.apiToken = apiToken
+
+exports.navigateToLogin = navigateToLogin;
 
 // 跳转登录页
 exports.redirectToLogin = redirectToLogin

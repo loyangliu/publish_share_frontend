@@ -193,7 +193,7 @@ Page({
 
       // 关注页需要登录
       if(!auth.check()){
-        auth.login();
+        auth.navigateToLogin();
         return;
       }
 
@@ -220,5 +220,9 @@ Page({
       });
 
     }).exec();
+  },
+
+  onHide: function(){
+    getApp().lastTab = '/pages/index/index';
   }
 });

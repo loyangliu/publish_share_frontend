@@ -1,33 +1,38 @@
-// pages/publish/publish.js
 var auth = require('../../common/auth.js')
-var api = require('../../common/api.js');
-var config = require('../../common/config.js');
+var api = require('../../common/api.js')
 
 Page({
-  data:{
-    name:'',
-    description:'',
-    images:[],
-    imageMaxNumber:9,
-    isCanChooseImage: true, // 是否可以继续选择图片
+  data: {
+    name: '',
+    content: '',
+    images: [],
+    imageMaxNum: 9,
   },
 
-  onShow: function(){
-    // 此页需要登录才能访问
-    auth.guard();
+  onShow: function () {
+    auth.guard(); // 需要登录
+
+    // 隐藏tabbar
+    wx.hideTabBar();
   },
 
-  // 选择图片
+  // 返回按钮
+  backTab: function () {
+    wx.switchTab({
+      url: getApp().lastTab,
+      complete: function(){
+        wx.showTabBar();
+      }
+    });
+  },
+
+  // 添加图片
   chooseImage: function(){
-    
     // 关闭键盘
     wx.hideKeyboard();
 
-    // 最多可选9张图，获取剩余可选的数量
-    var leng = this.data.images.length;
-    var count = this.data.imageMaxNumber - leng;
+    var count = this.data.imageMaxNum - this.data.images.length
 
-    // 选择图片
     wx.chooseImage({
       count: count,
       success: (res) => {
@@ -44,29 +49,10 @@ Page({
 
         this.data.images = this.data.images.concat(data);
 
-        // 满9张图后隐藏添加图片按钮
-        if (this.data.images.length == this.data.imageMaxNumber) {
-          this.closeImageChoose();
-        }
-
         this.setData({
           'images': this.data.images
         });
       }
-    });
-  },
-
-  // 关闭图片选择
-  closeImageChoose: function(){
-    this.setData({
-      isCanChooseImage:false
-    });
-  },
-
-  // 开启图片选择
-  openImageChoose: function () {
-    this.setData({
-      isCanChooseImage: true
     });
   },
 
@@ -75,128 +61,100 @@ Page({
     let data = e.currentTarget.dataset;
     let index = data.index;
     this.data.images.splice(index, 1);
-
-    // 图片数量未超过限制，则允许继续选择
-    if (this.data.images.length < this.data.imageMaxNumber) {
-      this.openImageChoose();
-    }
-
     this.setData({
       images: this.data.images
     });
   },
 
-  // 上传图片后提交发布
-  uploadImageSubmitPublish:function(e){
-
+  // 发布
+  publish: function (e) {
     var formData = e.detail.value;
     formData.name = formData.name.trim();
-    formData.description = formData.description.trim();
+    formData.content = formData.content.trim();
 
     this.setData({
       name: formData.name,
-      description: formData.description,
+      content: formData.content,
     });
 
-    if(!formData.name){
+    if (!formData.name) {
       wx.showToast({
         title: '请输入名称',
-        icon:'none',
+        icon: 'none',
       })
       return;
     }
 
-    if (!formData.description){
+    if (!formData.content) {
       wx.showToast({
-        title: '请输入描述',
+        title: '请输入介绍内容',
         icon: 'none',
       })
       return;
     }
 
     wx.showLoading({
-      title: '正在发布',
-      mask:true,
+      mask: true,
     });
 
-    // 无图片则直接提交
-    if (this.data.images.length == 0) {
-      this.submitPublish();
-      return;
-    }
+    // 图片上传结束后，提交
+    this.uploadImages(() => {
 
-    var completeNum = 0;
+      formData.images = JSON.stringify(this.getSuccessUploadImages());
 
-    // 上传图片
-    for(let index in this.data.images){
-      this.uploadImage(index, (bool) => {
-        completeNum++;
+      api.request({
+        url: 'articles/publish',
+        method: 'POST',
+        data: formData,
+        success: (res) => {
+          wx.hideLoading();
 
-        // 全部上传完成，提交发布
-        if (completeNum == this.data.images.length){
-          this.submitPublish();
-        }
-      });
-    }
-  },
+          var data = res.data;
 
-  // 提交发布
-  submitPublish: function(){
-    var formData = {
-      name: this.data.name,
-      description: this.data.description,
-      images: JSON.stringify(this.getSuccessUploadImages()),
-      api_token: auth.apiToken()
-    };
+          // 发布失败
+          if (data.code != 0) {
+            wx.showToast({
+              title: data.msg,
+              mask: true,
+              icon: 'none',
+            });
+            return;
+          }
 
-    // 提交发布
-    api.request({
-      url: 'articles/publish',
-      method: 'POST',
-      data: formData,
-      success: (res) => {
-
-        wx.hideLoading();
-
-        var data = res.data;
-
-        // 发布失败
-        if (data.code != 0) {
+          // 发布成功
           wx.showToast({
             title: data.msg,
             mask: true,
-            icon: 'none',
-          });
-          return;
-        }
+            success: () => {
 
-        // 发布成功
-        wx.showToast({
-          title:data.msg,
-          mask:true,
-          success:() => {
-            // 发布成功跳转我的帖子页
-            this.resetPublish(false);
-          }
-        });
-      },
-      fail: () => {
-        wx.showToast({
-          title: '发布失败！',
-          icon: 'none',
-          mask: true,
-        });
-      }
+              // 重置表单
+              this.setData({
+                name: '',
+                content: '',
+                images: []
+              });
+            }
+          });
+        },
+
+        fail: () => {
+          wx.showToast({
+            title: '发布失败！',
+            icon: 'none',
+            mask: true,
+          });
+        }
+      });
 
     });
   },
 
   // 获取上传成功的图片列表
-  getSuccessUploadImages: function(){
+  getSuccessUploadImages: function () {
     var images = [];
-    for(var index in this.data.images){
+    for (var index in this.data.images) {
       var image = this.data.images[index];
-      if (image.serverFilePath){
+      if (image.serverFilePath) {
         images.push(image.serverFilePath);
       }
     }
@@ -204,25 +162,44 @@ Page({
   },
 
   // 上传图片
-  uploadImage: function (index, complete) {
+  uploadImages: function(callback){
+
+    // 无图片
+    if (this.data.images.length == 0) {
+      callback();
+      return;
+    }
+
+    var count = 0;
+    for (let index in this.data.images) {
+      this.uploadImage(index, () => {
+        count++;
+
+        if (count == this.data.images.length){
+          callback();
+        }
+      });
+    }
+  },
+
+  // 上传图片
+  uploadImage: function (index, callback){
     var image = this.data.images[index];
-    
+
     // 图片已上传，则无需再上传
-    if (image.serverFilePath){
-      complete(true);
+    if (image.serverFilePath) {
+      callback();
       return;
     }
 
     wx.uploadFile({
       url: api.getUrl('articles/uploadImage'),
       filePath: image.src,
-      formData:{
-        api_token:auth.apiToken()
+      formData: {
+        api_token: auth.apiToken()
       },
       name: 'image',
       complete: (res) => {
-
-        var bool = false;
 
         if (res.statusCode == 200) {
 
@@ -230,47 +207,11 @@ Page({
 
           if (data.code == 0) {
             image.serverFilePath = data.data.file;
-            bool = true;
           }
         }
 
-        if (complete){
-          complete(bool);
-        }
+        callback();
       }
     })
-  },
-
-  // 重置表单
-  resetPublish: function (showConfirm = true){
-
-    if (!showConfirm){
-      this.setData({
-        name: '',
-        description: '',
-        images: []
-      });
-
-      this.openImageChoose();
-      return;
-    }
-
-    wx.showModal({
-      title:'重置表单',
-      content: '确定要清空输入的内容吗？',
-      success: (res) => {
-
-        if (res.confirm){
-          this.setData({
-            name: '',
-            description: '',
-            images: []
-          });
-
-          this.openImageChoose();
-        }
-
-      }
-    });
   }
-})
+});
