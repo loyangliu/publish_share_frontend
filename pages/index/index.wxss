@@ -1,0 +1,17 @@
+/* pages/index/index.wxss */
+/* https://blog.csdn.net/snail2651/article/details/79366642 */
+
+.swiper-img{
+  display:inline;
+}
+
+/* 文章列表 */
+.article{
+  padding-top:10rpx;
+}
+
+/* 失败信息提示 */
+.failpos {
+  text-align:center;
+  margin-top: 200rpx;
+}

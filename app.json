@@ -1,0 +1,39 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/publish/publish",
+    "pages/mine/mine"
+  ],
+  "window":{
+    "navigationBarBackgroundColor": "#35495e",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "蔷薇有你",
+    "backgroundColor": "#000000",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh":true
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#8a8a8a",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "帖子",
+        "iconPath": "images/homepage.png",
+        "selectedIconPath": "images/homepage_fill.png"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布",
+        "iconPath": "images/brush.png",
+        "selectedIconPath": "images/brush_fill.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/mine.png",
+        "selectedIconPath": "images/mine_fill.png"
+      }
+    ]
+  }
+}
