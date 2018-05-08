@@ -1,7 +1,0 @@
-{
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "menu": "/components/menu/menu",
-    "article": "/components/article/article"
-  }
-}

@@ -1,7 +1,0 @@
-<view>
-  {{ auth.user.wx_nick_name }}
-</view>
-<view>
-  <image src='{{ auth.user.wx_avatar_url }}'></image>
-</view>
-

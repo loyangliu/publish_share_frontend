@@ -1,8 +1,0 @@
-.body{
-  padding:20rpx;
-  position:absolute;
-  top:50%;
-  width:100%;
-  box-sizing: border-box;
-  margin-top:-150rpx;
-}
