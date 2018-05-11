@@ -20,20 +20,22 @@
 </view>
 
 <view class="footer">
-  <view class="item">
-    <view class="icon" bindtap='showdialog'><image src="/images/message.png"></image></view>
+  <view class="item" bindtap='showdialog'>
+    <view class="icon"><image src="/images/message.png"></image></view>
     <view class="number">0</view>
+    <view class="arrow-up"></view>
   </view>
-  <view class="item">
+  <view class="item" bindtap='support'>
     <view class="icon"><image src="/images/praise.png"></image></view>
     <view class="number">0</view>
   </view>
 </view>
 
 <view class="message">
+
   <view wx:for="{{article.comments}}" wx:key="{{index}}">
     <text class='icommit_who'>{{item.from}}</text>
-    <text class='icommit_comm'>{{item.to=='0'?'':'回复'}}</text>
+    <text class='icommit_comm'>{{item.to=='0'?'':' 回复 '}}</text>
     <text class='icommit_who'>{{item.to=='0'?'':item.to}}</text>
     <text class='icommit_comm'> : </text>
     <text class='icommit_comm' bindtap='showdialog' data-to='{{item.from}}'>{{item.message}}</text>
@@ -42,7 +44,7 @@
 
 <form hidden='{{!isShow}}' bindsubmit='_sendmsg'>
   <view class="cf-box">
-    <view class="emoji iconfont icon-emoji"></view>
+    <!-- <view class="emoji iconfont icon-emoji"></view> -->
     <input class="cf-content" value="{{commitmsg}}" placeholder="{{placeholder}}" bindinput='inputmsg' />
     <button class="cf-send" type="primary" form-type="submit">发送</button>
   </view>

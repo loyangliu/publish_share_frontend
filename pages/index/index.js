@@ -77,6 +77,9 @@ Page({
     var cursor = 0
 
     app.globalData.api.fetchArticles(page, pagesize, cursor, cb_parms => {
+
+      wx.stopPullDownRefresh();
+
       if (cb_parms.service_ok) {
         var res = cb_parms.data
         var code = res.code
@@ -87,8 +90,6 @@ Page({
             'articles.currentpage': res.data.articles.page,
             'articles.cursor': res.data.articles.offsetId
           })
-
-          console.log(this.data.articles.contents)
         }
       }
 

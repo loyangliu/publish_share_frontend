@@ -135,6 +135,22 @@ function fetchComments(article_id, callback) {
   )
 }
 
+/**
+ * 点赞帖子
+ */
+function supportArticle(api_token, article_id, callback){
+  const params = {
+    api_token: api_token,
+    article_id: article_id
+  };
+
+  commonFetch('articles/support', parms, "POST").then(
+    cb_parms => {
+      callback(cb_parms)
+    }
+  )
+}
+
 
 module.exports = {
   URI,

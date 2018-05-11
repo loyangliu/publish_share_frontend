@@ -126,6 +126,11 @@ Component({
       this.setData({
         commitmsg: event.detail.value
       })
+    },
+    
+    // 点赞
+    support(e){
+      console.log(this.data);
     }
   }
 })

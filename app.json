@@ -9,8 +9,7 @@
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "蔷薇有你",
     "backgroundColor": "#000000",
-    "backgroundTextStyle": "light",
-    "enablePullDownRefresh":true
+    "backgroundTextStyle": "light"
   },
   "tabBar": {
     "color": "#8a8a8a",
