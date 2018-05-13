@@ -14,16 +14,6 @@ Page({
     isCanChooseImage: true, // 是否可以继续选择图片
   },
 
-  // 返回按钮
-  backTab: function () {
-    wx.switchTab({
-      url: app.globalData.lastTab,
-      complete: function () {
-        wx.showTabBar();
-      }
-    });
-  },
-
   /**
    * 选择图片
    */
@@ -257,8 +247,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 隐藏tabbar
-    wx.hideTabBar();
+    console.log(app.globalData.api.URI + '/articles/uploadImage')
   },
 
   /**

@@ -1,4 +1,7 @@
 // pages/mine/mine.js
+
+const app = getApp();
+
 Page({
 
   /**
@@ -33,7 +36,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+    app.globalData.lastTab = '/pages/mine/mine';
   },
 
   /**

@@ -6,6 +6,7 @@
 module.exports = function(url, path, parms, method="GET") {
   var promise = new Promise(
     (resolve, reject) => {
+      console.log('a');
       wx.request({
         url: url + '/' + path,
         method: method,

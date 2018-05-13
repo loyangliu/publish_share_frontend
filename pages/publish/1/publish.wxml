@@ -1,0 +1,56 @@
+<!--pages/publish/publish.wxml-->
+<!-- 顶部按钮 -->
+<view class="header-wrap">
+  <view class="header">
+    <view class="left">
+      <button bindtap='backTab' size="mini">返回</button>
+    </view>
+    <view class="center">
+      发帖
+    </view>
+    <view class="right">
+      <button type="primary" size="mini" form-type="submit">发布</button>
+    </view>
+  </view>
+</view>
+
+<form class="form-publish" bindsubmit="uploadImageSubmitPublish">
+  <view class="view-publish">
+    <view class="view-name">
+      <input name="name" value="{{ name }}" placeholder="标题" class="input-name"></input>
+    </view>
+
+    <view class="view-description">
+      <textarea name="description" class="input-description" placeholder="做个详细的内容描述吧~" value="{{ description }}"></textarea>
+    </view>
+
+    <view class="images-container">
+      <view class="images-items">
+        <view data-index="{{ index }}" wx:for="{{ images }}" wx:key="{{index}}" class="images-item {{ (index+1) % 3 != 0 ? 'images-item-interval' : '' }}">
+          <image src="{{ item.src }}" class="images-item-image" mode="aspectFill"></image>
+          <view class="images-item-del" bindtap="deleteImage" data-index="{{ index }}">
+            <image src="/images/close.png"></image>
+          </view>
+        </view>
+
+        <!-- 图片选择按钮 -->
+        <view bindtap="chooseImage" class="images-item {{ (images.length+1) % 3 != 0 ? 'images-item-interval' : '' }} {{ isCanChooseImage ? '' : 'hidden' }}">
+          <view class="images-selector">
+            <image class="images-selector-icon" src="/images/picture.png"></image>
+            <view class="images-selector-text">
+              <text>添加图片</text>
+            </view>
+          </view>
+        </view> 
+        <!-- 图片选择按钮 # -->
+      </view>
+
+      <view style="clear:both"></view>
+    </view>
+
+    <view class="footer">
+      <button type="primary" form-type="submit">发　布</button>
+      <button class="mt20" bindtap='resetPublish'>重　置</button>
+    </view>
+  </view>
+</form>

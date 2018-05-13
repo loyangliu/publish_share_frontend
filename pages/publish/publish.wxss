@@ -1,4 +1,36 @@
 /* pages/publish/publish.wxss */
+/*header*/
+.header-wrap{
+  height:90rpx;
+}
+
+.header{
+  height:90rpx;
+  width:100%;
+  background:#fff;
+  position:fixed;
+  z-index:99;
+  top:0;
+  border-bottom:1rpx solid #F6F8F9; 
+  padding:10rpx;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.header>.left{
+  flex-grow: 1;
+}
+
+.header>.center{
+  flex-grow: 1;
+  text-align: center;
+}
+
+.header>.right{
+  flex-grow: 1;
+  text-align: right;
+}
+/* header # */
 
 .hidden{
   display:none !important;
