@@ -15,10 +15,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isShow: false,
-    commitmsg:'',
-    commitmsg_to:'0',
-    placeholder:''
+    
   },
 
   /**
@@ -37,38 +34,27 @@ Component({
     /**
      * 点击显示消息框
      */
-    showdialog(event) {
+    _showdialog(event) {
       console.log(event)
-      this.setData({
-        isShow: !this.data.isShow,
-      })
 
-      if(this.data.isShow) {
-        if(event.currentTarget.dataset.to) {
-          this.setData({
-            commitmsg_to: event.currentTarget.dataset.to,
-            placeholder: '回复 ' + event.currentTarget.dataset.to
-          })
-        } else {
-          this.setData({
-            commitmsg_to: '0',
-            placeholder: '我要评论'
-          })
-        }
+      var articleid = event.currentTarget.dataset.articleid
+      var sendto = event.currentTarget.dataset.to
+
+      var eventDetail = {
+        articleid: articleid,
+        sendto: sendto
       }
 
+      var eventOption = {
+
+      }
+
+      // triggerEvent函数接受三个值：事件名称、数据、选项值
+      this.triggerEvent("sendmsg", eventDetail, eventOption)
     },
-
-    /**
-     * 当场发送评论
-     */
-    _sendmsg(event) {
-      console.log(this.data.article)
-      console.log(app.globalData.userInfo)
-      if (this.data.commitmsg == '') {
-        return
-      }
-
+    
+    // 点赞
+    prise(e){
       var api_token = wx.getStorageSync('api_token')
       if (!api_token) {
         wx.showToast({
@@ -82,30 +68,30 @@ Component({
       } else {
         var article_id = this.data.article.id
         var _from = app.globalData.userInfo.wx_nick_name
-        var _to = this.data.commitmsg_to
-        var message = this.data.commitmsg
-        app.globalData.api.publishComments(api_token, article_id, _from, _to, message, cb_parms => {
-          console.log(cb_parms)
+
+        app.globalData.api.priseArticle(api_token, article_id, _from, cb_parms=>{
           if (cb_parms.service_ok) {
             var res = cb_parms.data
             var code = res.code
+            console.log(cb_parms)
 
             if (code == 0) {
-              var comment = {
+              var prises = {
                 article_id: article_id,
                 from: _from,
-                to: _to,
-                message: message,
                 commit_at: new Date()
               }
               this.setData({
-                isShow: !this.data.isShow,
-                'article.comments': this.data.article.comments.concat(comment),
-                commitmsg: ''
+                'article.prises': this.data.article.prises.concat(prises),
+              })
+            } else if (code == -1){
+              wx.showToast({
+                title: '亲，你已经点过赞啦！',
+                icon: 'none'
               })
             } else {
               wx.showToast({
-                title: '接口错误！',
+                title: '接口错误！'+code,
                 icon: 'none'
               })
             }
@@ -120,17 +106,23 @@ Component({
     },
 
     /**
-     * 实时将input数据写入controller
+     * 放大浏览图片
      */
-    inputmsg(event) {
-      this.setData({
-        commitmsg: event.detail.value
+    travelimgs(e) {
+      console.log(e)
+      var imgs = e.currentTarget.dataset.imgs
+      var curidx = e.currentTarget.dataset.curidx
+      var current_url = imgs[curidx].path
+      var urls = []
+
+      for (var i = 0; i < imgs.length; i++) {
+        urls.push(imgs[i].path)
+      }
+
+      wx.previewImage({
+        current: current_url,
+        urls: urls
       })
-    },
-    
-    // 点赞
-    support(e){
-      console.log(this.data);
     }
   }
 })

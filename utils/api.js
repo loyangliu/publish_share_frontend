@@ -3,9 +3,9 @@
  * 
  */
 
+//const URI = wx.getSystemInfoSync().brand == 'devtools' ? 'http://www.loyangliu.com/index.php/api' : 'https://www.loyangliu.com/api'
 const URI = 'https://www.loyangliu.com/api'
 const fetch = require('fetch')
-
 
 
 /**
@@ -138,13 +138,14 @@ function fetchComments(article_id, callback) {
 /**
  * 点赞帖子
  */
-function supportArticle(api_token, article_id, callback){
+function priseArticle(api_token, article_id, from, callback){
   const params = {
     api_token: api_token,
-    article_id: article_id
+    article_id: article_id,
+    from: from
   };
 
-  commonFetch('articles/support', parms, "POST").then(
+  commonFetch('comments/prise', params, "POST").then(
     cb_parms => {
       callback(cb_parms)
     }
@@ -165,5 +166,6 @@ module.exports = {
 
   // 评论
   publishComments,
-  fetchComments
+  fetchComments,
+  priseArticle
 }

@@ -22,7 +22,17 @@ Page({
       cursor:0,                // 数据库记录游标
       pagesize:5,
       contents:[]
+    },
+
+    // 发送评论消息
+    comments: {
+      is_show: false,
+      curr_articleid:0,
+      commitmsg: '',
+      commitmsg_to: '0',
+      placeholder: ''
     }
+    
   },
 
   /**
@@ -79,6 +89,7 @@ Page({
     app.globalData.api.fetchArticles(page, pagesize, cursor, cb_parms => {
 
       wx.stopPullDownRefresh();
+      console.log(cb_parms)
 
       if (cb_parms.service_ok) {
         var res = cb_parms.data
@@ -100,10 +111,71 @@ Page({
   },
 
   /**
-   * 发送评论
+     * 当场发送评论
+     */
+  _sendmsg(event) {
+    if (this.data.commitmsg == '') {
+      return
+    }
+
+    var api_token = wx.getStorageSync('api_token')
+    if (!api_token) {
+      wx.showToast({
+        title: '登录态缺失，正在为您重试！',
+        icon: 'none',
+        duration: 3000,
+        success: function () {
+          app.doLogin()
+        }
+      })
+    } else {
+      var article_id = this.data.article.id
+      var _from = app.globalData.userInfo.wx_nick_name
+      var _to = this.data.commitmsg_to
+      var message = this.data.commitmsg
+      app.globalData.api.publishComments(api_token, article_id, _from, _to, message, cb_parms => {
+        console.log(cb_parms)
+        if (cb_parms.service_ok) {
+          var res = cb_parms.data
+          var code = res.code
+
+          if (code == 0) {
+            var comment = {
+              article_id: article_id,
+              from: _from,
+              to: _to,
+              message: message,
+              commit_at: new Date()
+            }
+
+            this.setData({
+              'isShow': !this.data.isShow,
+              'article.comments': this.data.article.comments.concat(comment),
+              commitmsg: ''
+            })
+          } else {
+            wx.showToast({
+              title: '接口错误！',
+              icon: 'none'
+            })
+          }
+        } else {
+          wx.showToast({
+            title: '网络失败！',
+            icon: 'none'
+          })
+        }
+      })
+    }
+  },
+
+  /**
+   * 实时将input数据写入controller
    */
-  sendmsg:function(event) {
-    console.log(event)
+  inputmsg(event) {
+    this.setData({
+      commitmsg: event.detail.value
+    })
   },
 
   /**
@@ -111,6 +183,120 @@ Page({
    */
   subscribe:function(event) {
     console.log(event)
+  },
+
+  subscribee: function (event) {
+    console.log(event)
+  },
+
+  /**
+   * 唤起评论弹窗
+   */
+  showCommitWin:function(event) {
+    console.log(event)
+
+    var article_id = event.detail.articleid
+
+    this.setData({
+      'comments.is_show': !this.data.comments.is_show
+    })
+
+    if (this.data.comments.is_show) {
+      if (event.detail.sendto) {
+        this.setData({
+          'comments.curr_articleid': event.detail.articleid,
+          'comments.commitmsg_to': event.detail.sendto,
+          'comments.placeholder': '回复 ' + event.detail.sendto
+        })
+      } else {
+        this.setData({
+          'comments.curr_articleid': event.detail.articleid,
+          'comments.commitmsg_to': '0',
+          'comments.placeholder': '我要评论'
+        })
+      }
+    }
+  },
+
+  /**
+     * 当场发送评论
+     */
+  _sendmsg: function(event) {
+    if (this.data.comments.commitmsg == '') {
+      return
+    }
+
+    var api_token = wx.getStorageSync('api_token')
+    if (!api_token) {
+      wx.showToast({
+        title: '登录态缺失，正在为您重试！',
+        icon: 'none',
+        duration: 3000,
+        success: function () {
+          app.doLogin()
+        }
+      })
+    } else {
+      var article_id = this.data.comments.curr_articleid
+      var _from = app.globalData.userInfo.wx_nick_name
+      var _to = this.data.comments.commitmsg_to
+      var message = this.data.comments.commitmsg
+      app.globalData.api.publishComments(api_token, article_id, _from, _to, message, cb_parms => {
+        console.log(cb_parms)
+        if (cb_parms.service_ok) {
+          var res = cb_parms.data
+          var code = res.code
+
+          if (code == 0) {
+            var comment = {
+              article_id: article_id,
+              from: _from,
+              to: _to,
+              message: message,
+              commit_at: new Date()
+            }
+
+            var index = -1
+            for (var i = 0; i < this.data.articles.contents.length; i++) {
+              if (this.data.articles.contents[i].id == article_id) {
+                index = i
+                break
+              }
+            }
+            
+            if(index != -1) {
+              // 修改本地数据
+              this.data.articles.contents[index].comments = this.data.articles.contents[index].comments.concat(comment)
+
+              this.setData({
+                'articles.contents': this.data.articles.contents,
+                'comments.is_show': !this.data.comments.is_show,
+                'comments.commitmsg': ''
+              })
+            }
+          } else {
+            wx.showToast({
+              title: '接口错误！',
+              icon: 'none'
+            })
+          }
+        } else {
+          wx.showToast({
+            title: '网络失败！',
+            icon: 'none'
+          })
+        }
+      })
+    }
+  },
+
+  /**
+   * 实时将input数据写入controller
+   */
+  inputmsg(event) {
+    this.setData({
+      'comments.commitmsg': event.detail.value
+    })
   },
 
   /**

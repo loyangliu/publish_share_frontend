@@ -3,8 +3,7 @@
 App({
   globalData: {
     api: null,
-    userInfo: null,
-    lastTab: '/pages/index/index'
+    userInfo: null
   },
 
   /**

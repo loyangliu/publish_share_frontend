@@ -1,2 +1,11 @@
-<!--pages/mine/mine.wxml-->
-<text>pages/mine/mine.wxml</text>
+<!--pages/mine/mine.wxml
+<text>pages/mine/mine.wxml
+一共发布了N篇帖子，被关注过M次，有X人给你留过言，有Y人给你点过赞。我猜你喜欢 XX，会为你推荐有相同兴趣的好友。
+是否设置联系电话：
+是否设置联系地址：
+</text>
+-->
+
+<view class="personal">
+
+</view>

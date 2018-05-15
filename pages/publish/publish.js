@@ -258,7 +258,7 @@ Page({
    */
   onShow: function () {
     // 隐藏tabbar
-    wx.hideTabBar();
+    //wx.hideTabBar();
   },
 
   /**

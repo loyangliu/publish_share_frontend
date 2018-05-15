@@ -20,6 +20,14 @@
     wx:key="{{ index }}"
     article="{{ item }}"
     bind:subscribe="subscribe"
-    bind:sendmsg="sendmsg">
+    bind:sendmsg="showCommitWin">
   </article>
 </view>
+
+<!-- 发送评论的底部弹窗 -->
+<form class="sendmsg" hidden='{{!comments.is_show}}' bindsubmit='_sendmsg'>
+  <view class="cf-box">
+    <input class="cf-content" value="{{comments.commitmsg}}" placeholder="{{comments.placeholder}}" bindinput='inputmsg' />
+    <button class="cf-send" type="primary" form-type="submit">发送</button>
+  </view>
+</form>

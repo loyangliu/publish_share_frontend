@@ -1,13 +1,13 @@
 <view class="header">
   <view class="left">
-    <image src="{{ article.user.wx_avatar_url }}" class="avatar"></image> 
+    <image src="{{ article.user.wx_avatar_url == '' ? '/images/default-avatar.jpg' : article.user.wx_avatar_url }}" class="avatar"></image> 
   </view>
   <view class="from">
     <view class="from-name">{{ article.user.wx_nick_name }}</view>
     <view class="from-time">{{ article.publish_at.diffForHumans }}</view>
   </view>
   <view class="right">
-    <button size="mini" type="primary" bindtap="_subscribe" data-userid="{{ article.user.id }}">关注</button>  
+    <button style='background:#E7759A' size="mini" type="primary" bindtap="_subscribe" data-userid="{{ article.user.id }}">关注</button> 
   </view>
 </view>
 
@@ -16,37 +16,36 @@
 </view>
 
 <view class="images">
-  <image wx:for="{{ article.images }}" wx:for-item="image" src="{{ image.thumbnail_path }}" mode="aspectFill" class="image" wx:key="{{index}}"></image>
+  <image wx:for="{{ article.images }}" wx:for-item="image" src="{{ image.thumbnail_path }}" mode="aspectFill" class="image" wx:key="{{index}}" bindtap='travelimgs' data-imgs="{{ article.images }}" data-curidx="{{index}}">
+  </image>
 </view>
 
 <view class="footer">
-  <view class="item" bindtap='showdialog'>
+  <view class="item" bindtap='_showdialog' data-articleid="{{article.id}}">
     <view class="icon"><image src="/images/message.png"></image></view>
-    <view class="number">0</view>
+    <view class="number">{{article.comments.length}}</view>
     <view class="arrow-up"></view>
   </view>
-  <view class="item" bindtap='support'>
+  <view class="item" bindtap='prise'>
     <view class="icon"><image src="/images/praise.png"></image></view>
-    <view class="number">0</view>
+    <view class="number">{{article.prises.length}}</view>
   </view>
 </view>
 
-<view class="message">
+<view class="message" wx:if="{{article.comments.length > 0 || article.prises.length > 0}}">
+  <view class="stars" wx:if="{{article.prises.length > 0}}">
+    <image src="/images/praise.png" class="star-img"></image>
+    <text wx:for="{{article.prises}}">
+      <text> {{item.from}} </text>
+      <text wx:if="{{index < article.prises.length-1}}">,</text>
+    </text>
+  </view>
 
-  <view wx:for="{{article.comments}}" wx:key="{{index}}">
-    <text class='icommit_who'>{{item.from}}</text>
-    <text class='icommit_comm'>{{item.to=='0'?'':' 回复 '}}</text>
-    <text class='icommit_who'>{{item.to=='0'?'':item.to}}</text>
-    <text class='icommit_comm'> : </text>
-    <text class='icommit_comm' bindtap='showdialog' data-to='{{item.from}}'>{{item.message}}</text>
+  <view wx:for="{{article.comments}}" wx:key="{{index}}" bindtap='_showdialog' data-to='{{item.from}}' data-articleid="{{article.id}}">
+    <label class='icommit_who'>{{item.from}}</label>
+    <label class='icommit_comm'>{{item.to=='0'?'':' 回复 '}}</label>
+    <label class='icommit_who'>{{item.to=='0'?'':item.to}}</label>
+    <label class='icommit_comm'> : {{item.message}}</label>
   </view>
 </view>
 
-<form hidden='{{!isShow}}' bindsubmit='_sendmsg'>
-  <view class="cf-box">
-    <!-- <view class="emoji iconfont icon-emoji"></view> -->
-    <input class="cf-content" value="{{commitmsg}}" placeholder="{{placeholder}}" bindinput='inputmsg' />
-    <button class="cf-send" type="primary" form-type="submit">发送</button>
-  </view>
-
-</form>

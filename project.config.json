@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -37,8 +37,8 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "publish",
-					"pathName": "pages/publish/publish"
+					"name": "index",
+					"pathName": "pages/index/index"
 				}
 			]
 		}
