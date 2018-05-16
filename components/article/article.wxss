@@ -30,7 +30,7 @@ article{
 .from{
   margin-left:20rpx;
   float:left;
-  width:400rpx;
+  width:370rpx;
 }
 
 .from-name{
@@ -47,7 +47,7 @@ article{
 }
 
 .right{
-  width:200rpx;
+  width:230rpx;
   float:right;
   text-align: right;
   margin-right: 20rpx;

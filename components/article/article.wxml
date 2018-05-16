@@ -7,7 +7,10 @@
     <view class="from-time">{{ article.publish_at.diffForHumans }}</view>
   </view>
   <view class="right">
-    <button style='background:#E7759A' size="mini" type="primary" bindtap="_subscribe" data-userid="{{ article.user.id }}">关注</button> 
+    <button style='background:#E7759A' size="mini" type="primary" bindtap="toggleSubscribe" data-subscribe="{{ article.isSubscribe }}" disabled='{{ subscribeLoading }}' loading='{{ subscribeLoading }}'>
+      <text wx:if="{{ article.isSubscribe }}">已关注</text>
+      <text wx:else>关注</text>
+    </button> 
   </view>
 </view>
 

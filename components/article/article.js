@@ -15,7 +15,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    
+    subscribeLoading: false,
   },
 
   /**
@@ -23,12 +23,47 @@ Component({
    */
   methods: {
     // 组件绑定的关注事件处理函数
-    _subscribe(event) {
-      var userid = event.target.dataset.userid
-      console.log(event)
-      
-      // 触发外层事件
-      this.triggerEvent("subscribe")
+    toggleSubscribe(event) {
+
+      var api_token = wx.getStorageSync('api_token');
+
+      // 验证登陆
+      if (!api_token) {
+        wx.showToast({
+          title: '登录态缺失，正在为您重试！',
+          icon: 'none',
+          duration: 3000,
+          success: function () {
+            app.doLogin()
+          }
+        })
+        return;
+      };
+
+      var subscribe = !event.currentTarget.dataset.subscribe;
+      var action = subscribe ? 'subscribe' : 'cancenSubscribe';
+
+      this.setData({
+        subscribeLoading: true
+      });
+
+      app.globalData.api.toggleSubscribeArticle(api_token, this.data.article.id, action, cb_parms => {
+
+        this.setData({
+          subscribeLoading: false
+        });
+
+        if (cb_parms.service_ok) {
+          var res = cb_parms.data
+          var code = res.code
+
+          if (code == 0) {
+            this.setData({
+              ['article.isSubscribe']: subscribe
+            });
+          }
+        }
+      });
     },
 
     /**

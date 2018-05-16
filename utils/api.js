@@ -152,6 +152,19 @@ function priseArticle(api_token, article_id, from, callback){
   )
 }
 
+// 关注帖子
+function toggleSubscribeArticle(api_token, article_id, action, callback) {
+  const params = {
+    api_token: api_token,
+    article_id: article_id
+  };
+
+  commonFetch('articles/' + action, params, "POST").then(
+    cb_parms => {
+      callback(cb_parms)
+    }
+  )
+}
 
 module.exports = {
   URI,
@@ -163,6 +176,7 @@ module.exports = {
   // 帖子
   fetchArticles,
   publishArticles,
+  toggleSubscribeArticle, // 关注或取消关注
 
   // 评论
   publishComments,
