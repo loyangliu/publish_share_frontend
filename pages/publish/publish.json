@@ -1,1 +1,6 @@
-{}
+{
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "imodal": "/components/imodal/imodal"
+  }
+}

@@ -4,25 +4,22 @@
   </view>
   <view class="from">
     <view class="from-name">{{ article.user.wx_nick_name }}</view>
-    <view class="from-time">{{ article.publish_at.diffForHumans }}</view>
+    <view class="from-time">{{ article.publish_at_human }}</view>
   </view>
 
-  <view class="right" style='display:flex'>
-    <button style='background:#E7759A;align-self: center;' size="mini" type="primary" bindtap="toggleSubscribe" data-subscribe="{{ article.isSubscribe }}" disabled='{{ subscribeLoading }}' loading='{{ subscribeLoading }}'>
-      <text wx:if="{{ article.isSubscribe }}">修改</text>
-      <text wx:else>关注</text>
-    </button>
-  </view>
-
-  <view class="contact" style="display:{{(article.telphone == null || article.telphone == '')?'none':'flex'}}" bindtap="contact">
+  <view class="contact"  bindtap="toggleSubscribe">
     <view class="contact_view">
-      <image src='/images/telphone.png' style='width:30rpx;height:30rpx;align-self: center;'></image>
-      <label style="font-size:23rpx;color:green;align-self: center;"> 联系Ta</label>
+      <label style="font-size:23rpx;color:green;align-self: center;"> 有 10 人正在关注 </label>
     </view>
   </view>
 </view>
 
 <view class="body">
+  <view class="subscribe" hidden="{{!isShowSubscribe}}">
+    <view wx:for="{{article.subscribe}}" wx:key="{{index}}" style='display:flex'>
+      <view>{{item.user_nickname}}:{{item.message}}</view>
+    </view>
+  </view>
   <text  class="content">{{ article.desc_short != null ? article.desc_short : article.description }}</text>
   <text  class="more" hidden="{{article_more_hide}}" wx:if="{{article.desc_short != null}}" bindtap="article_more">更多>> </text>
 </view>

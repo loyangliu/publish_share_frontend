@@ -13,12 +13,17 @@
   <!-- 发帖主体 -->
   <view class="publish-wrap">
     <view class="publish">
-      <view class="view-name">
-        <input name="name" value="{{ name }}" placeholder="标题" class="input-name"></input>
-      </view>
-
       <view class="view-description">
         <textarea name="description" class="input-description" placeholder="做个详细的内容描述吧~" value="{{ description }}"></textarea>
+      </view>
+
+      <view class="basic-info">
+        <view class="basic-info-phone">
+          <input name="telphone" value="{{ telphone }}" placeholder="例:13916752109或0712-3614072" class="input-name"></input>
+        </view>
+        <view class="basic-info-loaction">
+          <input name="location" value="{{ location }}" placeholder="地理位置" class="input-name"></input>
+        </view>
       </view>
 
       <view class="images-container">
@@ -49,3 +54,8 @@
     </view>
   </view>
 </form>
+
+<!-- 隐藏的 遮罩层 -->
+<imodal
+  id="imodal">
+</imodal>

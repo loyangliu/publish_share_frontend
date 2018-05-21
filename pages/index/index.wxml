@@ -15,7 +15,7 @@
 </view>
 <view class="article" wx:else>
   <article 
-    id='{{item.id}}'
+    id="article{{item.id}}"
     wx:for="{{ articles.contents }}" 
     wx:key="{{ index }}"
     article="{{ item }}"
@@ -31,3 +31,20 @@
     <button class="cf-send" type="primary" form-type="submit">发送</button>
   </view>
 </form>
+
+<!-- 隐藏的 遮罩层 -->
+<imodal
+  id="imodal">
+</imodal>
+
+<!-- 隐藏的 对话框 -->
+<dialog 
+  id='dialog' 
+  title='关注Ta' 
+  content='请留下电话：' 
+  cancelText='取消' 
+  confirmText='确定'
+  bind:cancel="subscribe_cancel"  
+  bind:confirm="subscribe_confirm">
+</dialog>
+

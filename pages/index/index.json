@@ -1,6 +1,8 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents":{
-    "article":"/components/article/article"
+    "article":"/components/article/article",
+    "imodal": "/components/imodal/imodal",
+    "dialog": "/components/Dialog/dialog"
   }
 }

@@ -68,8 +68,9 @@ function doLogin(code, encryptedData, iv, callback) {
 /**
  * 获取帖子列表
  */
-function fetchArticles(page, pagesize, cursor, callback) {
+function fetchArticles(userid, page, pagesize, cursor, callback) {
   const parms = {
+    userid: userid,
     page:page,
     pagesize: pagesize,
     offsetId:cursor
@@ -85,12 +86,13 @@ function fetchArticles(page, pagesize, cursor, callback) {
 /**
  * 发布帖子
  */
-function publishArticles(api_token, user_id, title, description, images, callback){
+function publishArticles(api_token, user_id, description, telphone, location, images, callback){
   const parms = {
     api_token: api_token,
     userid:user_id,
-    name:title,
     description: description,
+    telphone: telphone,
+    location: location,
     images: images
   }
 
@@ -104,12 +106,14 @@ function publishArticles(api_token, user_id, title, description, images, callbac
 /**
  * 发布评论
  */
-function publishComments(api_token, article_id, _from, _to, message, callback){
+function publishComments(api_token, article_id, _from, _fromuserid, _to, _touserid, message, callback){
   const parms = {
     api_token: api_token,
     article_id: article_id,
     'from': _from,
+    'from_userid': _fromuserid,
     'to': _to,
+    'to_userid': _touserid,
     message: message
   }
 
@@ -153,13 +157,56 @@ function priseArticle(api_token, article_id, from, callback){
 }
 
 // 关注帖子
-function toggleSubscribeArticle(api_token, article_id, action, callback) {
+function toggleSubscribeArticle(api_token, article_id, telphone, message, action, callback) {
   const params = {
     api_token: api_token,
-    article_id: article_id
+    article_id: article_id,
+    telphone: telphone,
+    message: message
   };
 
   commonFetch('articles/' + action, params, "POST").then(
+    cb_parms => {
+      callback(cb_parms)
+    }
+  )
+}
+
+// 我的Num信息
+function mineBasicInfo(api_token, callback) {
+  const params = {
+    api_token: api_token
+  };
+
+  commonFetch('mine/home', params).then(
+    cb_parms => {
+      callback(cb_parms)
+    }
+  )
+}
+
+// 我的发布
+function minePublish(api_token, page, page_size, callback) {
+  const params = {
+    api_token: api_token,
+    page: page,
+    page_size: page_size
+  };
+
+  commonFetch('mine/myPublish', params).then(
+    cb_parms => {
+      callback(cb_parms)
+    }
+  )
+}
+
+// 我的关注
+function mineSubscribe(api_token, callback) {
+  const params = {
+    api_token: api_token
+  };
+
+  commonFetch('mine/mySubscribe', params).then(
     cb_parms => {
       callback(cb_parms)
     }
@@ -181,5 +228,10 @@ module.exports = {
   // 评论
   publishComments,
   fetchComments,
-  priseArticle
+  priseArticle,
+
+  // 我的
+  mineBasicInfo,
+  minePublish,
+  mineSubscribe
 }

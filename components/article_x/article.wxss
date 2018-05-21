@@ -1,4 +1,4 @@
-article{
+article_x{
   background-color: #fff;
   padding-right:20rpx;
   padding-top: 20rpx;
@@ -8,6 +8,15 @@ article{
   display:block;
 }
 
+article_y{
+  background-color: #fff;
+  padding-right:20rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  margin:0 10rpx 10rpx 10rpx;
+  border-radius: 8rpx;
+  display:block;
+}
 
 .header{
   margin-left:20rpx;
@@ -76,9 +85,15 @@ article{
 
 /* 内容 */
 .body{
+  width: 100%;
   margin-left:20rpx;
   margin-top:20rpx;
   display:inline-block;
+}
+
+.subscribe {
+  width: 100%;
+  background:gray;
 }
 
 .content{

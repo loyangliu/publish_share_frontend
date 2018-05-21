@@ -30,6 +30,7 @@ Page({
       curr_articleid:0,
       commitmsg: '',
       commitmsg_to: '0',
+      commitmsg_touserid: 0,
       placeholder: ''
     }
     
@@ -46,16 +47,31 @@ Page({
     var page = this.data.articles.currentpage + 1
     var cursor = this.data.articles.cursor
     var pagesize = this.data.articles.pagesize
+    var userid = app.globalData.userInfo ? app.globalData.userInfo.id : 0
 
     this.setData({
       'articles.loading':true
     })
 
-    app.globalData.api.fetchArticles(page, pagesize, cursor, cb_parms => {
+    app.globalData.api.fetchArticles(userid, page, pagesize, cursor, cb_parms => {
       if (cb_parms.service_ok) {
         var res = cb_parms.data
         var code = res.code
         if (code == 0 && res.data.articles.data.length > 0) {
+
+          for (var i = 0; i < res.data.articles.data.length; i++) {
+            var sublen = 20
+            var description = res.data.articles.data[i].description
+
+            if (description.length > sublen) {
+              while (description[sublen - 1] == '\n' || description[sublen - 1] == '\r') {
+                sublen++
+              }
+
+              res.data.articles.data[i].desc_short = description.substr(0, sublen).concat(' . . . ')
+            }
+          }
+
           this.setData({
             'articles.contents': this.data.articles.contents.concat(res.data.articles.data),
             'articles.currentpage': res.data.articles.page,
@@ -85,8 +101,10 @@ Page({
     var page = 1
     var pagesize = this.data.articles.pagesize
     var cursor = 0
+    var userid = app.globalData.userInfo ? app.globalData.userInfo.id : 0
+    console.log("------>"+userid)
 
-    app.globalData.api.fetchArticles(page, pagesize, cursor, cb_parms => {
+    app.globalData.api.fetchArticles(userid, page, pagesize, cursor, cb_parms => {
 
       wx.stopPullDownRefresh();
       console.log(cb_parms)
@@ -96,6 +114,19 @@ Page({
         var code = res.code
 
         if (code == 0 && res.data.articles.data.length > 0) {
+
+          for (var i = 0; i < res.data.articles.data.length; i++) {
+            var sublen = 20
+            var description = res.data.articles.data[i].description
+
+            if (description.length > sublen) {
+              while (description[sublen - 1] == '\n' || description[sublen - 1] == '\r') {
+                sublen++
+              }
+              res.data.articles.data[i].desc_short = description.substr(0, sublen).concat(' . . . ')
+            }
+          }
+
           this.setData({
             'articles.contents': res.data.articles.data,
             'articles.currentpage': res.data.articles.page,
@@ -110,64 +141,7 @@ Page({
     })
   },
 
-  /**
-     * 当场发送评论
-     */
-  _sendmsg(event) {
-    if (this.data.commitmsg == '') {
-      return
-    }
-
-    var api_token = wx.getStorageSync('api_token')
-    if (!api_token) {
-      wx.showToast({
-        title: '登录态缺失，正在为您重试！',
-        icon: 'none',
-        duration: 3000,
-        success: function () {
-          app.doLogin()
-        }
-      })
-    } else {
-      var article_id = this.data.article.id
-      var _from = app.globalData.userInfo.wx_nick_name
-      var _to = this.data.commitmsg_to
-      var message = this.data.commitmsg
-      app.globalData.api.publishComments(api_token, article_id, _from, _to, message, cb_parms => {
-        console.log(cb_parms)
-        if (cb_parms.service_ok) {
-          var res = cb_parms.data
-          var code = res.code
-
-          if (code == 0) {
-            var comment = {
-              article_id: article_id,
-              from: _from,
-              to: _to,
-              message: message,
-              commit_at: new Date()
-            }
-
-            this.setData({
-              'isShow': !this.data.isShow,
-              'article.comments': this.data.article.comments.concat(comment),
-              commitmsg: ''
-            })
-          } else {
-            wx.showToast({
-              title: '接口错误！',
-              icon: 'none'
-            })
-          }
-        } else {
-          wx.showToast({
-            title: '网络失败！',
-            icon: 'none'
-          })
-        }
-      })
-    }
-  },
+  
 
   /**
    * 实时将input数据写入controller
@@ -182,11 +156,75 @@ Page({
    * 关注帖子
    */
   subscribe:function(event) {
-    console.log(event)
+    this.dialog.showDialog(event.detail.article_id, 
+                          event.detail.is_subscribe,
+                          event.detail.telphone,
+                          event.detail.message)
   },
 
-  subscribee: function (event) {
+  /**
+   * 取消关注对话框
+   */
+  subscribe_cancel: function(event) {
+    this.dialog.hideDialog()
+  },
+
+  /**
+   * 确定关注
+   */
+  subscribe_confirm: function (event) {
     console.log(event)
+
+    var telphone = event.detail.telphone
+    var message = event.detail.message
+    var article_id = event.detail.article_id
+    var is_subscribe = event.detail.is_subscribe
+    var api_token = wx.getStorageSync('api_token');
+
+    if (telphone) {
+      if (/^[1][3,4,5,7,8][0-9]{9}$/.test(telphone) == false &&
+        /^(([0\+]\d{2,3}-)?(0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/.test(telphone) == false) {
+        wx.showToast({
+          title: '请输入正确的手机或座机号码',
+          icon: 'none'
+        })
+        return;
+      }
+    }
+    
+    app.globalData.api.toggleSubscribeArticle(api_token, article_id, telphone, message, 'subscribe', cb_parms => {
+      console.log(cb_parms)
+
+      if (cb_parms.service_ok) {
+        var res = cb_parms.data
+        var code = res.code
+
+        if (code == 0) {
+          this.dialog.hideDialog()
+
+          var index = -1
+          for (var i = 0; i < this.data.articles.contents.length; i++) {
+            if (this.data.articles.contents[i].id == article_id) {
+              index = i
+              break
+            }
+          }
+
+          if (index != -1) {
+            // 修改本地数据
+            this.data.articles.contents[index].isSubscribe = true
+
+            this.setData({
+              'articles.contents': this.data.articles.contents
+            })
+          }
+        } else {
+          wx.showToast({
+            title: '关注失败！' + res
+          })
+        }
+      }
+    });
   },
 
   /**
@@ -206,12 +244,14 @@ Page({
         this.setData({
           'comments.curr_articleid': event.detail.articleid,
           'comments.commitmsg_to': event.detail.sendto,
+          'comments.commitmsg_touserid': parseInt(event.detail.sendtouserid),
           'comments.placeholder': '回复 ' + event.detail.sendto
         })
       } else {
         this.setData({
           'comments.curr_articleid': event.detail.articleid,
           'comments.commitmsg_to': '0',
+          'comments.commitmsg_touserid': 0,
           'comments.placeholder': '我要评论'
         })
       }
@@ -227,21 +267,16 @@ Page({
     }
 
     var api_token = wx.getStorageSync('api_token')
-    if (!api_token) {
-      wx.showToast({
-        title: '登录态缺失，正在为您重试！',
-        icon: 'none',
-        duration: 3000,
-        success: function () {
-          app.doLogin()
-        }
-      })
+    if (!api_token || app.globalData.userInfo==null) {
+      app.doLogin()
     } else {
       var article_id = this.data.comments.curr_articleid
       var _from = app.globalData.userInfo.wx_nick_name
+      var _fromuserid = app.globalData.userInfo.id
       var _to = this.data.comments.commitmsg_to
+      var _touserid = this.data.comments.commitmsg_touserid
       var message = this.data.comments.commitmsg
-      app.globalData.api.publishComments(api_token, article_id, _from, _to, message, cb_parms => {
+      app.globalData.api.publishComments(api_token, article_id, _from, _fromuserid, _to, _touserid, message, cb_parms => {
         console.log(cb_parms)
         if (cb_parms.service_ok) {
           var res = cb_parms.data
@@ -251,7 +286,9 @@ Page({
             var comment = {
               article_id: article_id,
               from: _from,
+              from_userid: _fromuserid,
               to: _to,
+              to_userid: _touserid,
               message: message,
               commit_at: new Date()
             }
@@ -319,6 +356,15 @@ Page({
   onShow: function () {
     console.log('index page onShow()...')
     this.refreshArticles()
+
+    // 获得 遮罩层 组件, selectComponent 从页面中<imodal> 里id=imodal的组件取出
+    this.imodal = this.selectComponent("#imodal");
+
+    // 将 imodal 设置为全局
+    app.globalData.imodal = this.imodal
+
+    // 获取 dialog
+    this.dialog = this.selectComponent("#dialog");
   },
 
   /**
@@ -340,6 +386,14 @@ Page({
    */
   onPullDownRefresh: function () {
     this.refreshArticles()
+
+    // 当文章列表刷新后，需要对article的读取更多（more）的可显示状态做初始化更新
+    for (var i = 0; i < this.data.articles.contents.length; i++) {
+      var article_component = this.selectComponent("#article" + this.data.articles.contents[i].id); 
+      if (article_component != null) {
+        article_component.reset_more()  // 重置 article more 的状态
+      }
+    }
   },
 
   /**

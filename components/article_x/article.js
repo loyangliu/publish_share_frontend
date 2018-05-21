@@ -15,7 +15,8 @@ Component({
    * 组件的初始数据
    */
   data: {
-    article_more_hide: false
+    article_more_hide: false,
+    isShowSubscribe: false
   },
 
   /**
@@ -31,24 +32,9 @@ Component({
         return;
       };
 
-      var telphone = ''
-      var message = ''
-      if (this.data.article.isSubscribe) {
-        var my_userid = app.globalData.userInfo.id
-        for (var i = 0; i < this.data.article.subscribe.length; i++) {
-          if (this.data.article.subscribe[i].user_id == my_userid) {
-            telphone = this.data.article.subscribe[i].telphone
-            message = this.data.article.subscribe[i].message
-            break
-          }
-        }
-      }
-
       var eventDetail = {
         article_id: this.data.article.id,
-        is_subscribe: this.data.article.isSubscribe,
-        telphone: telphone,
-        message: message
+        is_subscribe: this.data.article.isSubscribe
       }
 
       this.triggerEvent("subscribe", eventDetail, null)
@@ -168,6 +154,15 @@ Component({
     contact(event) {
       wx.makePhoneCall({
         phoneNumber: '15121039843',
+      })
+    },
+
+    /**
+     * 显示隐藏 关注列表
+     */
+    toggleSubscribe(event) {
+      this.setData({
+        isShowSubscribe: !this.data.isShowSubscribe
       })
     }
   }
