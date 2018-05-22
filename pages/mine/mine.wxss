@@ -46,9 +46,9 @@
 
 .userinfo-nickname {
   color: #aaa;
-  align-self: center; /* ¸¸½ÚµãÎªflexÊ±£¬ÉèÖÃ×ÓÔªËØ´¹Ö±¾ÓÖĞ */
-  white-space:nowrap; /* ²»»»ĞĞ */
-  overflow:hidden; /* Òç³öÒş²Ø */
+  align-self: center; /* çˆ¶èŠ‚ç‚¹ä¸ºflexæ—¶ï¼Œè®¾ç½®å­å…ƒç´ å‚ç›´å±…ä¸­ */
+  white-space:nowrap; /* ä¸æ¢è¡Œ */
+  overflow:hidden; /* æº¢å‡ºéšè— */
   
 }
 
@@ -101,13 +101,13 @@
 }
 
 /***********************/
-/* ÎÄÕÂÁĞ±í */
+/* æ–‡ç« åˆ—è¡¨ */
 .article{
   padding-top:10rpx;
 }
 
 
-/* ·¢ËÍÆÀÂÛµ¯´°¸¡ÔÚµ×²¿ */
+/* å‘é€è¯„è®ºå¼¹çª—æµ®åœ¨åº•éƒ¨ */
 .sendmsg {
   position: fixed;
   bottom: 0rpx;
