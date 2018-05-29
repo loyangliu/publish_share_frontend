@@ -1,0 +1,12 @@
+<!--components/modal/imodal.wxml-->
+<view class="bg" style='display:{{is_show}}' catchtouchmove='prevent_move'></view>  
+<view class="show" style='display:{{is_show}}'>  
+  <text>亲~需要您授权哦~</text>
+  <view style='display:flex;'>
+    <view class='sure' style='flex-grow:1'></view> 
+    <button class='sure' style='flex-grow:1' open-type="getUserInfo" bindgetuserinfo="wxauth">确定</button> 
+    <view class='sure' style='flex-grow:1'></view> 
+    <button class='sure' style='flex-grow:1' bindtap='hideview' >取消</button> 
+    <view class='sure' style='flex-grow:1'></view> 
+  </view>
+</view>

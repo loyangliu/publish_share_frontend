@@ -1,0 +1,67 @@
+<!--pages/publish/publish.wxml-->
+<form class="form-publish" bindsubmit="uploadImageSubmitPublish">
+
+  <!-- 顶部按钮 -->
+  <view class="header-wrap">
+    <view class="header">
+      <view class="fatie">
+        发布
+      </view>
+    </view>
+  </view>
+
+  <!-- 发帖主体 -->
+  <view class="publish-wrap">
+    <view class="publish">
+      <view class="view-description">
+        <textarea name="description" class="input-description" placeholder="做个详细的内容描述吧~" value="{{ description }}"></textarea>
+      </view>
+
+      <view class="basic-info">
+        <view class="basic-info-phone">
+          <image src="/images/phone.png" style='height:40rpx;width:40rpx;margin-right:10rpx'></image>
+          <text>电话：</text>
+          <input name="telphone" value="{{ telphone }}" placeholder="例:13916752109或0712-3614072" class="input-name"></input>
+        </view>
+        <view class="basic-info-split"></view>
+        <view class="basic-info-loaction">
+          <image src="/images/map.png" style='height:40rpx;width:40rpx;margin-right:10rpx'></image>
+          <text>位置：</text>
+          <input name="location" value="{{ location }}" placeholder="{{location}}" class="input-name2" disabled='disabled' bindtap="chooselocation"></input>
+          <text style='font-size:30rpx; color:gray;' bindtap="chooselocation"> >> </text>
+        </view>
+      </view>
+
+      <view class="images-container">
+
+        <view data-index="{{ index }}" wx:for="{{ images }}" wx:key="{{index}}" class="images-item images-item-interval">
+          <image src="{{ item.src }}" class="images-item-image" mode="aspectFill"></image>
+          <view class="images-item-del" bindtap="deleteImage" data-index="{{ index }}">
+            <image src="/images/close.png"></image>
+          </view>
+        </view>
+
+        <!-- 图片选择按钮 -->
+        <view bindtap="chooseImage" class="images-item images-item-interval {{ isCanChooseImage ? '' : 'hidden' }}">
+          <image class="images-selector-icon" src="/images/picture.png"></image>
+          <view class="images-selector-text">
+            <text>添加图片</text>
+          </view>
+        </view> 
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="footer-wrap">
+    <view class="footer-space"></view>
+    <view class="footer-fb">
+      <button style='background:green' class="footer-fb-btn" type="primary" form-type="submit">发　布</button>
+    </view>
+  </view>
+</form>
+
+<!-- 隐藏的 遮罩层 -->
+<imodal
+  id="imodal">
+</imodal>

@@ -1,0 +1,175 @@
+/* pages/publish/publish.wxss */
+/***********  header  ***********/
+.header-wrap{
+  height:10%;
+  box-sizing: border-box;
+}
+
+.header{
+  height:88%;
+  width:100%;
+}
+
+.header>.fatie{
+  padding-top: 30rpx;
+  text-align: center;
+}
+
+/***********  header  ***********/
+
+/***********  body  ***********/
+.publish-wrap{
+  overflow: hidden;
+  height: 72%;
+
+  box-sizing:border-box;
+}
+
+.publish {
+  height: 98%;
+
+  position: relative;
+}
+
+.basic-info{
+  background:#fff;
+  height: 20%;
+  margin-bottom: 20rpx;
+}
+
+.basic-info-split {
+  width: 100%;
+  height: 4%;
+  background: #F8F8F8;
+}
+
+.basic-info-phone {
+  height: 48%;
+  display: flex;
+  align-items: center;
+  margin-left: 20rpx;
+}
+
+.basic-info-loaction {
+  height: 48%;
+  display: flex;
+  align-items: center;
+  margin-left: 20rpx;
+}
+
+.view-description{
+  background:#fff;
+  height: 40%;
+  margin-bottom: 20rpx;
+}
+
+.images-container{
+  background:#F8F8F8;
+  overflow:auto;
+  height: 40%;
+}
+
+.input-name{
+  padding: 10rpx;
+  font-size: 30rpx;
+  width:500rpx;
+  text-align: left;
+}
+
+.input-name2{
+  padding: 10rpx;
+  font-size: 30rpx;
+  width:450rpx;
+  text-align: left;
+  color: gray;
+}
+
+.input-description{
+  padding: 10rpx;
+}
+
+.images-item{
+  width:30%;
+  height:80%; 
+  display:block;
+  float:left;
+  margin-top:1%;
+  position:relative;
+  border:2rpx dashed #8a8a8a;
+  text-align:center;
+  box-sizing:border-box;
+}
+
+.images-item-interval{
+  margin-left:2%;
+}
+
+.images-item-image{
+  width:100%;
+  height:100%;
+}
+
+.images-selector-icon{
+  width:80rpx;
+  height:80rpx;
+  margin-top:20%;
+}
+
+.images-selector-text{
+  font-size:30rpx;
+  color:#8a8a8a;
+}
+
+.images-item-del{
+  width:50rpx;
+  height:50rpx;
+  background:#44494C;
+  position:absolute;
+  right:0;
+  top:0;
+  opacity: 0.5;
+  z-index:9999;
+}
+
+.images-item-del image{
+  width:90%;
+  height:90%;
+  margin-left:5%;
+  margin-top:5%;
+  display:block;
+}
+
+.hidden{
+  display:none !important;
+}
+
+/***********  body  ***********/
+
+/***********  footer  ***********/
+.footer-wrap {
+  height: 18%;
+  background:#fff;
+  box-sizing: border-box;
+}
+
+.footer-space {
+  height: 15rpx;
+}
+
+.footer-fb {
+  height: 50%;
+  margin-bottom: 10rpx;
+  margin-top: 40rpx;
+}
+
+.footer-cz {
+  height: 40%;
+}
+
+.footer-fb-btn {
+  height: 100%;
+  background: gray;
+  width: 90%;
+}
+
+/***********  footer  ***********/

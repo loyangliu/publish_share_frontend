@@ -1,0 +1,264 @@
+article{
+  background-color: #fff;
+  padding-right:20rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  margin:0 10rpx 10rpx 10rpx;
+  border-radius: 8rpx;
+  display:block;
+}
+
+
+.header{
+  margin-left:20rpx;
+  width:100%;
+  height: 100%;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.header>.left{
+  width:70rpx;
+  height:70rpx;
+  float:left;
+}
+
+.avatar{
+  width:100%;
+  height:100%;
+  border-radius: 6rpx;
+}
+
+.from{
+  margin-left:20rpx;
+  float:left;
+  width:300rpx;
+}
+
+.from-name{
+  font-size:30rpx;
+  color:#3385FF;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.from-time{
+  font-size:20rpx;
+  color:#80848F;
+  margin-top:5rpx;
+}
+
+.contact {
+  float:right;
+  width: auto;
+  height: 70rpx;
+  margin-right: 10rpx;
+  display: flex;
+  align-items:center;
+}
+
+.contact_view {
+  height: 50rpx;
+  border:green solid 1rpx;
+  border-radius:7%;
+  padding-left: 6rpx;
+  padding-right: 6rpx;
+  display:flex;
+}
+
+/* 位置 */
+.location {
+  margin-left: 20rpx;
+  font-size: 30rpx;
+  display: flex;
+}
+
+/* 内容 */
+.body{
+  margin-left:20rpx;
+  margin-top:20rpx;
+  display:inline-block;
+}
+
+.content{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 40; 
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.more {
+  font-size: 25rpx;
+  color: blue;
+  padding-top: 10rpx;
+}
+
+/* 图片 */
+.images{
+  overflow:hidden;
+  margin-top:20rpx;
+  margin-left: 20rpx;
+}
+.images>.image{
+  width:32%;
+  height:32vw;
+  display:block;
+  float:left;
+}
+
+.images>.image:nth-child(3n+3), .images>.image:nth-child(3n+2){
+  margin-left:2%;
+}
+
+.images>.image:nth-child(n+4){
+  margin-top:2%;
+}
+
+/* 底部 */
+.footer{
+  background:#fff;
+  display: flex;
+  text-align:center;
+  margin-top:20rpx;
+  border-top:1px solid #F7F5F6;
+}
+.footer>.item{
+  flex-grow:1;
+  padding-top:10rpx;
+}
+
+.arrow-up{
+  width:0; 
+  height:0; 
+  border-left:20rpx solid transparent;
+  border-right:20rpx solid transparent;
+  border-bottom:20rpx solid #F8F8F9;
+  margin:0 auto;
+  margin-top:5rpx;
+}
+
+.footer>.item>.number{
+  display:inline-block;
+  vertical-align: middle;
+  height:50rpx;
+  line-height:55rpx;
+  font-size:25rpx;
+  margin-left:10rpx;
+  color:#80848f;
+}
+
+.icon{
+  display:inline-block;
+}
+
+.icon image{
+  vertical-align: bottom;
+  width:40rpx;
+  height:40rpx;
+}
+
+.message{
+  margin-left:20rpx;
+  display: block;
+  background-color: #F8F8F9;
+  border-radius:6rpx;
+  font-size:30rpx;
+  padding:15rpx;
+}
+
+.icommit{
+  margin-top:10rpx;
+}
+
+.icommit text{
+  word-break: break-all;
+}
+
+.icommit_who{
+  color: #3385FF;
+}
+
+.icommit_comm{
+  height: auto;
+  word-break: break-all;
+}
+
+.stars {
+  padding-bottom: 10rpx;
+  word-break:break-all;
+}
+
+.stars_border {
+  border-bottom-style:double;
+  border-width:1rpx;
+  border-color: #CCCDD0;
+}
+
+.star-img {
+  width: 35rpx;
+  height: 35rpx;
+}
+
+
+
+
+@font-face {font-family: "iconfont";
+  src: url('//at.alicdn.com/t/font_4n1crpa4urpv6lxr.eot?t=1482133471430'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_4n1crpa4urpv6lxr.eot?t=1482133471430#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_4n1crpa4urpv6lxr.woff?t=1482133471430') format('woff'), /* chrome, firefox */
+  url('//at.alicdn.com/t/font_4n1crpa4urpv6lxr.ttf?t=1482133471430') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_4n1crpa4urpv6lxr.svg?t=1482133471430#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-emoji:before { content: "\e614"; }
+
+.iconfont {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.cf-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 99;
+  background-color: transparent;
+}
+
+.emoji {
+  background-color: #fff;
+  width: 30px;
+  text-align: center;
+  padding-top: 2px;
+  box-sizing: border-box;
+  font-size: 20px;
+}
+
+.emoji-box {
+  position: relative;
+  height: 200px;
+  padding: 5px 0;
+  box-sizing: border-box;
+  margin-bottom: -200px;
+}
+
+.emoji-move-in {
+  -webkit-animation: emoji-move-in 0.3s forwards;
+  animation: emoji-move-in 0.3s forwards;
+}
+
+.emoji-move-out {
+  -webkit-animation: emoji-move-out 0.3s forwards;
+  animation: emoji-move-out 0.3s forwards;
+}

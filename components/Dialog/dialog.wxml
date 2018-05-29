@@ -1,0 +1,24 @@
+<!--components/Dialog/dialog.wxml-->
+<view class='wx_dialog_container' hidden="{{!isShow}}">
+    <view class='wx-mask'></view>
+    <view class='wx-dialog'>
+        <view class='wx-dialog-title'>{{ title }}</view>
+        <view>
+            <label style='font-size:30rpx;color:red'>{{contentText}}</label>
+        </view>
+        <view class='wx-dialog-content'>
+          <view style='display:flex'>
+            <label>电话：</label>
+            <input class='subscribe_input_phone' value="{{ telphone }}" placeholder='例:0712-3614072' bindinput="input_phone"/>
+          </view>
+          <view style='display:flex;margin-top:8rpx;margin-bottom:12rpx;'>
+            <label>留言：</label>
+            <input class='subscribe_input_msg' value="{{ message }}" placeholder='给他留言' bindinput="input_message"/>
+          </view>
+        </view>
+        <view class='wx-dialog-footer'>
+          <view class='wx-dialog-btn' bindtap='do_cancel'>{{ cancelText }}</view>
+          <view class='wx-dialog-btn' catchtap='do_confirm'>{{ confirmText }}</view>
+        </view>
+    </view>
+</view>

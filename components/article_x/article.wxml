@@ -1,0 +1,94 @@
+<view class="header">
+  <view class="left">
+    <image src="{{ article.user.wx_avatar_url == '' ? '/images/default-avatar.jpg' : article.user.wx_avatar_url }}" class="avatar"></image> 
+  </view>
+  <view class="from">
+    <view class="from-name">{{ article.user.wx_nick_name }}</view>
+    <view class="from-time">{{ article.publish_at_human }}</view>
+  </view>
+
+  <view class="contact"  bindtap="toggleSubscribe">
+    <view class="contact_view">
+      <label style="font-size:23rpx;color:green;align-self: center;"> 有 {{article.subscribe.length}} 人正在关注 </label>
+    </view>
+  </view>
+</view>
+
+<view class="location" bindtap='openlocation' data-latitude="{{article.location_latitude}}" data-longitude="{{article.location_longitude}}" wx:if="{{article.location != '' && article.location != null}}">
+  <image src='/images/map.png' style='width:30rpx;height:30rpx;align-self: center;'></image>
+  <text>{{article.location}}</text>
+</view>
+
+<view class="subscribe" hidden="{{!isShowSubscribe}}">
+  <view style='display:flex'>
+    <view style='width:75%'></view>
+    <view class="arrow-up2"></view>
+  </view>
+  <view class="subscribe_border">
+    <view wx:for="{{article.subscribe}}" wx:key="{{index}}" style='display:flex'>
+      <view class="subscribe_item">
+        <view class="subscribe_item_header">
+          <text style='float:left;width:80%;'>
+            <text>{{item.user_nickname}}</text>
+            <text style='font-size:25rpx;color:red;'>(关注于:{{item.subscribe_time_human}})</text>
+          </text>
+          <view style='float:right' wx:if="{{item.telphone != ''}}" bindtap='bailtelphone' data-telphone="{{item.telphone}}">
+            <image style='width:30rpx; height:30rpx;' src="/images/telphone.png"></image>
+            <text style='font-size:30rpx;color:green;'>电话Ta</text>
+          </view>
+        </view>
+        <view class="subscribe_item_content">
+          <view wx:if="{{item.message != ''}}">
+            <text>留言：{{item.message}}</text>
+          </view>
+        </view>
+        <view class="subscribe_item_split" wx:if="{{index != article.subscribe.length-1}}"></view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="body">
+  <text  class="content">{{ article.desc_short != null ? article.desc_short : article.description }}</text>
+  <text  class="more" hidden="{{article_more_hide}}" wx:if="{{article.desc_short != null}}" bindtap="article_more">更多>> </text>
+</view>
+
+<view class="images">
+  <image wx:for="{{ article.images }}" wx:for-item="image" src="{{ image.thumbnail_path }}" mode="aspectFill" class="image" wx:key="{{index}}" bindtap='travelimgs' data-imgs="{{ article.images }}" data-curidx="{{index}}">
+  </image>
+</view>
+
+<view class="footer">
+  <view class="item" bindtap='send_comments' data-articleid="{{article.id}}">
+    <view class="icon">
+      <image src="{{article.comments.length > 0 ? '/images/message_fill.png' : '/images/message.png'}}"></image>
+    </view>
+    <view class="number">{{article.comments.length}}</view>
+    <view class="arrow-up" wx:if="{{article.comments.length > 0 || article.prises.length > 0}}"></view>
+  </view>
+  <view class="item" bindtap='prise' open-type="getUserInfo">
+    <view class="icon">
+      <image src="{{article.prises.length > 0 ? '/images/praise_fill.png' : '/images/praise.png'}}"></image>
+    </view>
+    <view class="number">{{article.prises.length}}</view>
+  </view>
+</view>
+
+<!-- 留言区 -->
+<view class="message" wx:if="{{article.comments.length > 0 || article.prises.length > 0}}">
+  <view class="stars" wx:if="{{article.prises.length > 0}}">
+    <image src="/images/like-fill.png" class="star-img"></image>
+    <text wx:for="{{article.prises}}" wx:key="{{index}}">
+      <text> {{item.from}} </text>
+      <text wx:if="{{index < article.prises.length-1}}">,</text>
+    </text>
+  </view>
+
+  <view wx:for="{{article.comments}}" wx:key="{{index}}" bindtap='send_comments' data-to='{{item.from}}' data-touserid="{{item.from_userid}}" data-articleid="{{article.id}}">
+    <label class='icommit_who'>{{item.from}}</label>
+    <label class='icommit_comm'>{{item.to=='0'?'':' 回复 '}}</label>
+    <label class='icommit_who'>{{item.to=='0'?'':item.to}}</label>
+    <label class='icommit_comm'> : {{item.message}}</label>
+  </view>
+</view>
+

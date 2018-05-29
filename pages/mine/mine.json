@@ -1,0 +1,9 @@
+{
+    "enablePullDownRefresh": false,
+    "usingComponents": {
+      "imodal": "/components/imodal/imodal",
+      "article_x": "/components/article_x/article",
+      "article_y": "/components/article/article",
+      "dialog": "/components/Dialog/dialog"
+    }
+}

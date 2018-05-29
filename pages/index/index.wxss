@@ -1,0 +1,80 @@
+/* pages/index/index.wxss */
+/* https://blog.csdn.net/snail2651/article/details/79366642 */
+
+.swiper-img{
+  display:inline;
+}
+
+/* 文章列表 */
+.article{
+  padding-top:5rpx;
+}
+
+/* 失败信息提示 */
+.failpos {
+  text-align:center;
+  margin-top: 200rpx;
+}
+
+/* 发送评论弹窗浮在底部 */
+.sendmsg {
+  position: fixed;
+  bottom: 0rpx;
+  background: #fff;
+  width:100%;
+  float:left;
+  height: 150rpx;
+  margin-left: 20rpx;
+}
+
+.cf-box {
+  margin-top:20rpx;
+  display: flex;
+}
+
+.cf-content {
+  border-color: green; 
+  border-style: solid; 
+  border-top-width: 0px;
+  border-right-width: 0px; 
+  border-left-width: 0px;
+  border-bottom-width: 3rpx;
+  padding:10rpx 20rpx;
+  box-sizing: border-box;
+  width:70%;
+  height:auto;
+}
+
+.cf-send {
+  display:block;
+  width:15%;
+  margin-left:30rpx;
+  line-height:60rpx;
+  font-size:13px;
+  padding:0;
+  height:60rpx;
+}
+
+/*********************/
+.menus{
+  background:white;
+  width:100%;
+  height: 75rpx;
+  display: flex;
+  align-items:center;
+  border-top:2px solid #F6F8F9;
+  border-bottom:5rpx solid #F6F8F9;
+}
+
+.menu_tab {
+  width: 50%;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  align-items:center;
+}
+
+.active_tab{
+  border-bottom:4rpx solid #00818a;
+  color:#00818a;
+}

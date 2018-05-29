@@ -1,0 +1,86 @@
+<!--pages/mine/mine.wxml
+<text>pages/mine/mine.wxml
+一共发布了N篇帖子，被关注过M次，有X人给你留过言，有Y人给你点过赞。我猜你喜欢 XX，会为你推荐有相同兴趣的好友。
+是否设置联系电话：
+是否设置联系地址：
+</text>
+-->
+
+<!-- 个人信息 -->
+<view class="personal">
+  <view class="personal_line1">
+    <view class="personal_aval">
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.wx_avatar_url}}" background-size="cover">
+      </image>
+    </view>
+    
+    <view class="personal_nick">
+      <view class="userinfo-nickname">{{userInfo.wx_nick_name}}</view>
+    </view>
+
+    <view class="personal_articles">
+      <view class="personal_articles_tie">累计发帖：{{basicInfo.publis_num}} 次</view>
+      <view class="personal_articles_tie">累计评论：{{basicInfo.comment_num}} 次</view>
+      <view class="personal_articles_tie">累计关注：{{basicInfo.subscribe_num}} 次</view>
+    </view>
+  </view>
+</view>
+
+<!-- tab栏 -->
+<view class="menus">
+  <view class="menu_tab {{current_tab==0?'active_tab':''}}" data-current="0" bindtap='switch_tap'>
+    <label style='width:100%;text-align: center;'>我的发布</label>
+  </view>
+  <text style='color:gray'>|</text>
+  <view class="menu_tab {{current_tab==1?'active_tab':''}}" data-current="1"  bindtap='switch_tap'>
+    <label style='width:100%;text-align: center;'>我的关注</label>
+  </view>
+</view>
+
+<!-- tab1栏-内容 -->
+<view class="article" hidden="{{current_tab==0?false:true}}">
+  <article_x
+    id="article{{item.id}}"
+    wx:for="{{ myPublish.my_publish }}" 
+    wx:key="{{ index }}"
+    article="{{ item }}"
+    bind:sendmsg="showCommitWin">
+  </article_x>
+</view>
+
+<!-- tab2栏-内容 -->
+<view class="article" hidden="{{current_tab==1?false:true}}">
+  <article_y
+    id="article{{item.id}}"
+    wx:for="{{ mySubscribe.my_subscribe }}" 
+    wx:key="{{ index }}"
+    article="{{ item }}"
+    bind:subscribe="subscribe"
+    bind:sendmsg="showCommitWin">
+  </article_y>
+</view>
+
+
+<!-- 发送评论的底部弹窗 -->
+<form class="sendmsg" hidden='{{!comments.is_show}}' bindsubmit='_sendmsg'>
+  <view class="cf-box">
+    <input class="cf-content" value="{{comments.commitmsg}}" placeholder="{{comments.placeholder}}" bindinput='inputmsg' />
+    <button class="cf-send" type="primary" form-type="submit">发送</button>
+  </view>
+</form>
+
+<!-- 隐藏的 遮罩层 -->
+<imodal
+  id="imodal">
+</imodal>
+
+<!-- 隐藏的 对话框 -->
+<dialog 
+  id='dialog' 
+  title='关注Ta' 
+  content='请留下电话：' 
+  cancelText='取消' 
+  confirmText='确定'
+  bind:cancel="subscribe_cancel"  
+  bind:confirm="subscribe_confirm">
+</dialog>
