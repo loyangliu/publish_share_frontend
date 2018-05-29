@@ -10,10 +10,12 @@ Page({
   data: {
     // 广告位：轮播
     boards: [
-      { images: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2519631933.jpg' },
-      { images: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2518856022.jpg' },
-      { images: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2515434674.jpg' }
+      { images: 'https://www.loyangliu.com/storage/index/1.jpg' },
+      { images: 'https://www.loyangliu.com/storage/index/2.jpg' },
+      { images: 'https://www.loyangliu.com/storage/index/3.jpg' }
     ],
+
+    current_tab: 0,
 
     // 正文：帖子
     articles : {
@@ -22,6 +24,11 @@ Page({
       cursor:0,                // 数据库记录游标
       pagesize:5,
       contents:[]
+    },
+
+    // 附件的事
+    nearby:{
+      contents: []
     },
 
     // 发送评论消息
@@ -53,36 +60,44 @@ Page({
       'articles.loading':true
     })
 
-    app.globalData.api.fetchArticles(userid, page, pagesize, cursor, cb_parms => {
-      if (cb_parms.service_ok) {
-        var res = cb_parms.data
-        var code = res.code
-        if (code == 0 && res.data.articles.data.length > 0) {
+    wx.getLocation({
+      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+      success: res => {
+        var latitude = res.latitude
+        var longitude = res.longitude
 
-          for (var i = 0; i < res.data.articles.data.length; i++) {
-            var sublen = 20
-            var description = res.data.articles.data[i].description
+        app.globalData.api.fetchArticles(userid, latitude, longitude, page, pagesize, cursor, cb_parms => {
+          if (cb_parms.service_ok) {
+            var res = cb_parms.data
+            var code = res.code
+            if (code == 0 && res.data.articles.data.length > 0) {
 
-            if (description.length > sublen) {
-              while (description[sublen - 1] == '\n' || description[sublen - 1] == '\r') {
-                sublen++
+              for (var i = 0; i < res.data.articles.data.length; i++) {
+                var sublen = 20
+                var description = res.data.articles.data[i].description
+
+                if (description.length > sublen) {
+                  while (description[sublen - 1] == '\n' || description[sublen - 1] == '\r') {
+                    sublen++
+                  }
+
+                  res.data.articles.data[i].desc_short = description.substr(0, sublen).concat(' . . . ')
+                }
               }
 
-              res.data.articles.data[i].desc_short = description.substr(0, sublen).concat(' . . . ')
+              this.setData({
+                'articles.contents': this.data.articles.contents.concat(res.data.articles.data),
+                'articles.currentpage': res.data.articles.page,
+                'articles.cursor': res.data.articles.offsetId
+              })
             }
           }
 
           this.setData({
-            'articles.contents': this.data.articles.contents.concat(res.data.articles.data),
-            'articles.currentpage': res.data.articles.page,
-            'articles.cursor':res.data.articles.offsetId
+            'articles.loading': false
           })
-        }
+        })
       }
-
-      this.setData({
-        'articles.loading': false
-      })
     })
   },
 
@@ -104,40 +119,48 @@ Page({
     var userid = app.globalData.userInfo ? app.globalData.userInfo.id : 0
     console.log("------>"+userid)
 
-    app.globalData.api.fetchArticles(userid, page, pagesize, cursor, cb_parms => {
+    wx.getLocation({
+      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+      success: res => {
+        var latitude = res.latitude
+        var longitude = res.longitude
 
-      wx.stopPullDownRefresh();
-      console.log(cb_parms)
+        app.globalData.api.fetchArticles(userid, latitude, longitude, page, pagesize, cursor, cb_parms => {
 
-      if (cb_parms.service_ok) {
-        var res = cb_parms.data
-        var code = res.code
+          wx.stopPullDownRefresh();
+          console.log(cb_parms)
 
-        if (code == 0 && res.data.articles.data.length > 0) {
+          if (cb_parms.service_ok) {
+            var res = cb_parms.data
+            var code = res.code
 
-          for (var i = 0; i < res.data.articles.data.length; i++) {
-            var sublen = 20
-            var description = res.data.articles.data[i].description
+            if (code == 0 && res.data.articles.data.length > 0) {
 
-            if (description.length > sublen) {
-              while (description[sublen - 1] == '\n' || description[sublen - 1] == '\r') {
-                sublen++
+              for (var i = 0; i < res.data.articles.data.length; i++) {
+                var sublen = 20
+                var description = res.data.articles.data[i].description
+
+                if (description.length > sublen) {
+                  while (description[sublen - 1] == '\n' || description[sublen - 1] == '\r') {
+                    sublen++
+                  }
+                  res.data.articles.data[i].desc_short = description.substr(0, sublen).concat(' . . . ')
+                }
               }
-              res.data.articles.data[i].desc_short = description.substr(0, sublen).concat(' . . . ')
+
+              this.setData({
+                'articles.contents': res.data.articles.data,
+                'articles.currentpage': res.data.articles.page,
+                'articles.cursor': res.data.articles.offsetId
+              })
             }
           }
 
           this.setData({
-            'articles.contents': res.data.articles.data,
-            'articles.currentpage': res.data.articles.page,
-            'articles.cursor': res.data.articles.offsetId
+            'articles.loading': false
           })
-        }
+        })
       }
-
-      this.setData({
-        'articles.loading': false
-      })
     })
   },
 
@@ -202,9 +225,17 @@ Page({
         if (code == 0) {
           this.dialog.hideDialog()
 
+          // 分tab刷新本地数据
+          var tab_articles = null
+          if(this.data.current_tab == 0) {
+            tab_articles = this.data.articles.contents
+          } else if (this.data.current_tab == 1) {
+            tab_articles = this.data.nearby.contents
+          }
+
           var index = -1
-          for (var i = 0; i < this.data.articles.contents.length; i++) {
-            if (this.data.articles.contents[i].id == article_id) {
+          for (var i = 0; i < tab_articles.length; i++) {
+            if (tab_articles[i].id == article_id) {
               index = i
               break
             }
@@ -212,11 +243,26 @@ Page({
 
           if (index != -1) {
             // 修改本地数据
-            this.data.articles.contents[index].isSubscribe = true
+            tab_articles[index].isSubscribe = true
+            
+            var my_userid = app.globalData.userInfo.id
+            for (var i = 0; i < tab_articles[index].subscribe.length; i++) {
+              if (tab_articles[index].subscribe[i].user_id == my_userid) {
+                tab_articles[index].subscribe[i].telphone = telphone
+                tab_articles[index].subscribe[i].message = message
+                break
+              }
+            }
 
-            this.setData({
-              'articles.contents': this.data.articles.contents
-            })
+            if(this.data.current_tab == 0) {
+              this.setData({
+                'articles.contents': tab_articles
+              })
+            } else if (this.data.current_tab == 1) {
+              this.setData({
+                'nearby.contents': tab_articles
+              })
+            }
           }
         } else {
           wx.showToast({
@@ -293,9 +339,17 @@ Page({
               commit_at: new Date()
             }
 
+            // 分tab刷新本地数据
+            var tab_articles = null
+            if (this.data.current_tab == 0) {
+              tab_articles = this.data.articles.contents
+            } else if (this.data.current_tab == 1) {
+              tab_articles = this.data.nearby.contents
+            }
+
             var index = -1
-            for (var i = 0; i < this.data.articles.contents.length; i++) {
-              if (this.data.articles.contents[i].id == article_id) {
+            for (var i = 0; i < tab_articles.length; i++) {
+              if (tab_articles[i].id == article_id) {
                 index = i
                 break
               }
@@ -303,13 +357,21 @@ Page({
             
             if(index != -1) {
               // 修改本地数据
-              this.data.articles.contents[index].comments = this.data.articles.contents[index].comments.concat(comment)
+              tab_articles[index].comments = tab_articles[index].comments.concat(comment)
 
-              this.setData({
-                'articles.contents': this.data.articles.contents,
-                'comments.is_show': !this.data.comments.is_show,
-                'comments.commitmsg': ''
-              })
+              if (this.data.current_tab == 0) {
+                this.setData({
+                  'articles.contents': tab_articles,
+                  'comments.is_show': !this.data.comments.is_show,
+                  'comments.commitmsg': ''
+                })
+              } else if (this.data.current_tab == 1) {
+                this.setData({
+                  'nearby.contents': tab_articles,
+                  'comments.is_show': !this.data.comments.is_show,
+                  'comments.commitmsg': ''
+                })
+              }
             }
           } else {
             wx.showToast({
@@ -334,6 +396,36 @@ Page({
     this.setData({
       'comments.commitmsg': event.detail.value
     })
+  },
+
+  switch_tap: function (event) {
+    var current_tab = event.currentTarget.dataset.current
+    this.setData({
+      current_tab: current_tab
+    })
+
+    if(current_tab == 1) {
+      wx.getLocation({
+        type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+        success: res => {
+          var latitude = res.latitude
+          var longitude = res.longitude
+          var userid = app.globalData.userInfo ? app.globalData.userInfo.id : 0
+
+          app.globalData.api.nearbyArticles(userid, latitude, longitude, cb_parms => {
+            if (cb_parms.service_ok) {
+              var res = cb_parms.data
+              var code = res.code
+              if (code == 0) {
+                this.setData({
+                  'nearby.contents': res.data.articles.data,
+                })
+              }
+            }
+          })
+        }
+      })
+    }
   },
 
   /**

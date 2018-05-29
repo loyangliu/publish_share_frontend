@@ -62,8 +62,6 @@ article_y{
   width: auto;
   height: 70rpx;
   margin-right: 10rpx;
-  display: flex;
-  align-items:center;
 }
 
 .contact_view {
@@ -83,6 +81,13 @@ article_y{
   margin-right: 20rpx;
 }
 
+/* 位置 */
+.location {
+  margin-left: 20rpx;
+  font-size: 30rpx;
+  display: flex;
+}
+
 /* 内容 */
 .body{
   width: 100%;
@@ -93,7 +98,28 @@ article_y{
 
 .subscribe {
   width: 100%;
-  background:gray;
+}
+
+.subscribe_border {
+  background:  #F8F8F5;
+}
+
+.subscribe_item {
+  width: 100%;
+  font-size: 30rpx;
+  padding: 10rpx;
+  background: #F8F8F5;
+}
+
+.subscribe_item_split {
+  width: 100%;
+  height: 5rpx;
+  background: #CCCDD0;
+  margin-top: 15rpx;
+}
+
+.subscribe_item_header {
+  display: flex;
 }
 
 .content{
@@ -152,6 +178,15 @@ article_y{
   border-bottom:20rpx solid #F8F8F9;
   margin:0 auto;
   margin-top:5rpx;
+}
+
+.arrow-up2{
+  width:0; 
+  height:0; 
+  border-left:20rpx solid transparent;
+  border-right:20rpx solid transparent;
+  border-bottom:20rpx solid #F8F8F5;
+  margin:0 auto;
 }
 
 .footer>.item>.number{

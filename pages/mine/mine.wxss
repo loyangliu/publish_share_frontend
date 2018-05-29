@@ -3,7 +3,7 @@
 .personal {
   width: 100%;
   height:auto;
-  background: #E4EDDB;
+  background: #00818a;
 }
 
 .personal_line1 {
@@ -45,7 +45,7 @@
 }
 
 .userinfo-nickname {
-  color: #aaa;
+  color: #dbedf3;
   align-self: center; /* 父节点为flex时，设置子元素垂直居中 */
   white-space:nowrap; /* 不换行 */
   overflow:hidden; /* 溢出隐藏 */
@@ -54,7 +54,7 @@
 
 .personal_articles_tie {
   margin-right: 3rpx;
-  color:#E7759A;
+  color:#dbedf3;
 }
 
 .personal_line2 {
@@ -83,8 +83,8 @@
   height: 75rpx;
   display: flex;
   align-items:center;
-  border-top:5px solid #F6F8F9;
-  border-bottom:10rpx solid #F6F8F9;
+  border-top:2px solid #F6F8F9;
+  border-bottom:5rpx solid #F6F8F9;
 }
 
 .menu_tab {
@@ -96,8 +96,8 @@
 }
 
 .active_tab{
-  border-bottom:4rpx solid #E7759A;
-  color:#E7759A;
+  border-bottom:4rpx solid #00818a;
+  color:#00818a;
 }
 
 /***********************/

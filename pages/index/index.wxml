@@ -7,21 +7,55 @@
   </swiper>
 </view>
 
-<!-- 正文：帖子 -->
-<view class="failpos" wx:if="{{ articles.contents.length == 0 }}">
-  <text>正在获取帖子,请稍等...\n\n</text>
-  <text decode="{{true}}">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*\n</text>
-  <text decode="{{true}}">&nbsp;&nbsp;v&nbsp;&nbsp;</text>
+<!-- tab栏 -->
+<view class="menus">
+  <view class="menu_tab {{current_tab==0?'active_tab':''}}" data-current="0" bindtap='switch_tap'>
+    <label style='width:100%;text-align: center;'>最新消息</label>
+  </view>
+  <text style='color:gray'>|</text>
+  <view class="menu_tab {{current_tab==1?'active_tab':''}}" data-current="1"  bindtap='switch_tap'>
+    <label style='width:100%;text-align: center;'>附件的事</label>
+  </view>
 </view>
-<view class="article" wx:else>
-  <article 
-    id="article{{item.id}}"
-    wx:for="{{ articles.contents }}" 
-    wx:key="{{ index }}"
-    article="{{ item }}"
-    bind:subscribe="subscribe"
-    bind:sendmsg="showCommitWin">
-  </article>
+
+<!-- tab1栏-内容 -->
+<view class="article" hidden="{{current_tab==0?false:true}}">
+  <!-- 正文：帖子 -->
+  <view class="failpos" wx:if="{{ articles.contents.length == 0 }}">
+    <text>正在获取帖子,请稍等...\n\n</text>
+    <text decode="{{true}}">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*\n</text>
+    <text decode="{{true}}">&nbsp;&nbsp;v&nbsp;&nbsp;</text>
+  </view>
+  <view class="article" wx:else>
+    <article 
+      id="article{{item.id}}"
+      wx:for="{{ articles.contents }}" 
+      wx:key="{{ index }}"
+      article="{{ item }}"
+      bind:subscribe="subscribe"
+      bind:sendmsg="showCommitWin">
+    </article>
+  </view>
+</view>
+
+<!-- tab2栏-内容 -->
+<view class="article" hidden="{{current_tab==1?false:true}}">
+  <!-- 正文：帖子 -->
+  <view class="failpos" wx:if="{{ nearby.contents.length == 0 }}">
+    <text>正在获取帖子,请稍等...\n\n</text>
+    <text decode="{{true}}">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*\n</text>
+    <text decode="{{true}}">&nbsp;&nbsp;v&nbsp;&nbsp;</text>
+  </view>
+  <view class="article" wx:else>
+    <article 
+      id="article{{item.id}}"
+      wx:for="{{ nearby.contents }}" 
+      wx:key="{{ index }}"
+      article="{{ item }}"
+      bind:subscribe="subscribe"
+      bind:sendmsg="showCommitWin">
+    </article>
+  </view>
 </view>
 
 <!-- 发送评论的底部弹窗 -->

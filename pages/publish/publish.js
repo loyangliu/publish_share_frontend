@@ -10,6 +10,9 @@ Page({
     description: '',
     telphone: '',
     location: '',
+    location_name:'',
+    location_latitude:0.0,
+    location_longitude:0.0,
     images: [],
     imageMaxNumber: 9,
     isCanChooseImage: true, // 是否可以继续选择图片
@@ -200,6 +203,9 @@ Page({
     var description = this.data.description
     var telphone = this.data.telphone
     var location = this.data.location
+    var location_name = this.data.location_name
+    var location_latitude = this.data.location_latitude
+    var location_longitude = this.data.location_longitude
     var imagesArr = []
     for (var index = 0; index < this.data.images.length; index++) {
       var image = this.data.images[index]
@@ -210,7 +216,7 @@ Page({
     var images = JSON.stringify(imagesArr)
     var user_id = app.globalData.userInfo.id
 
-    app.globalData.api.publishArticles(api_token, user_id, description, telphone, location, images, cb_parms => {
+    app.globalData.api.publishArticles(api_token, user_id, description, telphone, location, location_name, location_latitude, location_longitude, images, cb_parms => {
       if (cb_parms.service_ok) {
         console.log(cb_parms.data)
         wx.showToast({
@@ -239,6 +245,46 @@ Page({
       description:'',
       location: '',
       images:[]
+    })
+  },
+
+  // 选择地理位置
+  chooselocation: function() {
+  
+    wx.getLocation({
+      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+      success:  (res) => {
+        var latitude = res.latitude
+        var longitude = res.longitude
+
+        wx.chooseLocation({
+          success: (res2) => {
+            console.log(res2)
+            this.setData({
+              location: res2.address,
+              location_name: res2.name,
+              location_latitude: res2.latitude,
+              location_longitude: res2.longitude
+            })
+          }
+        })
+      },
+      // 未授权时，通过wx.openSetting让用户打开授权
+      fail: function(res) {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userLocation']) {
+              wx.openSetting({
+                success: (res) => {
+                  res.authSetting = {
+                    "scope.userLocation": true
+                  }
+                }
+              })
+            }
+          }
+        })
+      }
     })
   },
 

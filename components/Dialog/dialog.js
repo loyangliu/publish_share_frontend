@@ -57,9 +57,9 @@ Component({
     showDialog(article_id, is_subscribe, telphone, message) {
       var content = ''
       if(is_subscribe) {
-        content = '提示：已关注过，可修改您的电话或留言'
+        content = '提示：已经关注了，可修改预留的电话和留言'
       } else {
-        content = '提示：填写电话或留言，能让对方找到你哦~'
+        content = '提示：给Ta留下电话与留言'
       }
 
       this.setData({

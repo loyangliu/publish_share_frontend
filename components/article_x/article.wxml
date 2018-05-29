@@ -9,17 +9,46 @@
 
   <view class="contact"  bindtap="toggleSubscribe">
     <view class="contact_view">
-      <label style="font-size:23rpx;color:green;align-self: center;"> 有 10 人正在关注 </label>
+      <label style="font-size:23rpx;color:green;align-self: center;"> 有 {{article.subscribe.length}} 人正在关注 </label>
+    </view>
+  </view>
+</view>
+
+<view class="location" bindtap='openlocation' data-latitude="{{article.location_latitude}}" data-longitude="{{article.location_longitude}}" wx:if="{{article.location != '' && article.location != null}}">
+  <image src='/images/map.png' style='width:30rpx;height:30rpx;align-self: center;'></image>
+  <text>{{article.location}}</text>
+</view>
+
+<view class="subscribe" hidden="{{!isShowSubscribe}}">
+  <view style='display:flex'>
+    <view style='width:75%'></view>
+    <view class="arrow-up2"></view>
+  </view>
+  <view class="subscribe_border">
+    <view wx:for="{{article.subscribe}}" wx:key="{{index}}" style='display:flex'>
+      <view class="subscribe_item">
+        <view class="subscribe_item_header">
+          <text style='float:left;width:80%;'>
+            <text>{{item.user_nickname}}</text>
+            <text style='font-size:25rpx;color:red;'>(关注于:{{item.subscribe_time_human}})</text>
+          </text>
+          <view style='float:right' wx:if="{{item.telphone != ''}}" bindtap='bailtelphone' data-telphone="{{item.telphone}}">
+            <image style='width:30rpx; height:30rpx;' src="/images/telphone.png"></image>
+            <text style='font-size:30rpx;color:green;'>电话Ta</text>
+          </view>
+        </view>
+        <view class="subscribe_item_content">
+          <view wx:if="{{item.message != ''}}">
+            <text>留言：{{item.message}}</text>
+          </view>
+        </view>
+        <view class="subscribe_item_split" wx:if="{{index != article.subscribe.length-1}}"></view>
+      </view>
     </view>
   </view>
 </view>
 
 <view class="body">
-  <view class="subscribe" hidden="{{!isShowSubscribe}}">
-    <view wx:for="{{article.subscribe}}" wx:key="{{index}}" style='display:flex'>
-      <view>{{item.user_nickname}}:{{item.message}}</view>
-    </view>
-  </view>
   <text  class="content">{{ article.desc_short != null ? article.desc_short : article.description }}</text>
   <text  class="more" hidden="{{article_more_hide}}" wx:if="{{article.desc_short != null}}" bindtap="article_more">更多>> </text>
 </view>

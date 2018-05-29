@@ -49,7 +49,7 @@
 </view>
 
 <!-- tab2栏-内容 -->
-<view hidden="{{current_tab==1?false:true}}">
+<view class="article" hidden="{{current_tab==1?false:true}}">
   <article_y
     id="article{{item.id}}"
     wx:for="{{ mySubscribe.my_subscribe }}" 

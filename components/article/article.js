@@ -169,6 +169,19 @@ Component({
       wx.makePhoneCall({
         phoneNumber: '15121039843',
       })
+    },
+
+    /**
+     * 打开地图
+     */
+    openlocation(event) {
+      var latitude = parseFloat(event.currentTarget.dataset.latitude)
+      var longitude = parseFloat(event.currentTarget.dataset.longitude)
+
+      wx.openLocation({
+        latitude: latitude,
+        longitude: longitude,
+      })
     }
   }
 })

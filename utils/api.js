@@ -68,9 +68,11 @@ function doLogin(code, encryptedData, iv, callback) {
 /**
  * 获取帖子列表
  */
-function fetchArticles(userid, page, pagesize, cursor, callback) {
+function fetchArticles(userid, latitude, longitude, page, pagesize, cursor, callback) {
   const parms = {
     userid: userid,
+    latitude: latitude,
+    longitude: longitude,
     page:page,
     pagesize: pagesize,
     offsetId:cursor
@@ -84,15 +86,35 @@ function fetchArticles(userid, page, pagesize, cursor, callback) {
 }
 
 /**
+ * 附近的帖子列表
+ */
+function nearbyArticles(userid, latitude, longitude, callback) {
+  const parms = {
+    userid: userid,
+    latitude: latitude,
+    longitude: longitude
+  }
+
+  commonFetch('articles/nearby', parms).then(
+    cb_parms => {
+      callback(cb_parms)
+    }
+  )
+}
+
+/**
  * 发布帖子
  */
-function publishArticles(api_token, user_id, description, telphone, location, images, callback){
+function publishArticles(api_token, user_id, description, telphone, location, location_name, location_latitude, location_longitude, images, callback){
   const parms = {
     api_token: api_token,
     userid:user_id,
     description: description,
     telphone: telphone,
     location: location,
+    location_name: location_name,
+    location_latitude: location_latitude,
+    location_longitude: location_longitude,
     images: images
   }
 
@@ -201,9 +223,11 @@ function minePublish(api_token, page, page_size, callback) {
 }
 
 // 我的关注
-function mineSubscribe(api_token, callback) {
+function mineSubscribe(api_token, latitude, longitude, callback) {
   const params = {
-    api_token: api_token
+    api_token: api_token,
+    latitude: latitude,
+    longitude: longitude
   };
 
   commonFetch('mine/mySubscribe', params).then(
@@ -222,6 +246,7 @@ module.exports = {
 
   // 帖子
   fetchArticles,
+  nearbyArticles,
   publishArticles,
   toggleSubscribeArticle, // 关注或取消关注
 

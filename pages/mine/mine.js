@@ -72,19 +72,27 @@ Page({
         }
       })
     } else if (this.data.current_tab == 1) { // 我的关注
-      app.globalData.api.mineSubscribe(api_token, cb_parms => {
-        console.log(cb_parms)
-        if (cb_parms.service_ok) {
-          var res = cb_parms.data
-          var code = res.code
+      wx.getLocation({
+        type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+        success: res => {
+          var latitude = res.latitude
+          var longitude = res.longitude
 
-          if (code == 0) {
-            this.setData({
-              'mySubscribe.my_subscribe': res.data.my_subscribe
-            })
-          }
+          app.globalData.api.mineSubscribe(api_token, latitude, longitude, cb_parms => {
+            console.log(cb_parms)
+            if (cb_parms.service_ok) {
+              var res = cb_parms.data
+              var code = res.code
+
+              if (code == 0) {
+                this.setData({
+                  'mySubscribe.my_subscribe': res.data.my_subscribe
+                })
+              }
+            }
+          })
         }
-      })
+      }) 
     }
   },
 

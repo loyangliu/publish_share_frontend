@@ -46,7 +46,7 @@ App({
             } else {
               // 没有授权，则主动申请授权。
               // 注意: 1, 当 scope 为 "scope.userInfo" 时，无法通过 wx.authorize弹出授权窗口。需要外部通过button触发授权弹窗的弹出。
-              //       2, 用户首次拒绝权限后，无法再次通过 wx.authorize弹出授权窗口，需要通过wx.openSetting来解决
+              //       2, 用户首次拒绝权限后，无法再次通过 wx.authorize 弹出授权窗口，需要通过wx.openSetting来解决
 
               // 这里采用弹出 遮罩层 ，提示用户点击授权按钮，进而弹出授权用户基本信息
               if(this.globalData.imodal != null) {

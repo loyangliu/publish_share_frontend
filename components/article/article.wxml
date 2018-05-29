@@ -7,19 +7,30 @@
     <view class="from-time">{{ article.publish_at.diffForHumans }}</view>
   </view>
 
-  <view class="right" style='display:flex'>
+  <view class="contact" style='display:flex'>
+  <!--
     <button style='background:#E7759A;align-self: center;' size="mini" type="primary" bindtap="toggleSubscribe" data-subscribe="{{ article.isSubscribe }}" disabled='{{ subscribeLoading }}' loading='{{ subscribeLoading }}'>
       <text wx:if="{{ article.isSubscribe }}">修改</text>
       <text wx:else>关注</text>
     </button>
+  -->
+    <view class="contact_view" bindtap="toggleSubscribe">
+      <image src='/images/contact.png' style='width:35rpx;height:35rpx;align-self: center;'></image>
+      <label style="font-size:28rpx;color:green;align-self: center;"> 关注Ta</label>
+    </view>
   </view>
 
   <view class="contact" style="display:{{(article.telphone == null || article.telphone == '')?'none':'flex'}}" bindtap="contact">
     <view class="contact_view">
-      <image src='/images/telphone.png' style='width:30rpx;height:30rpx;align-self: center;'></image>
-      <label style="font-size:23rpx;color:green;align-self: center;"> 联系Ta</label>
+      <image src='/images/telphone.png' style='width:35rpx;height:35rpx;align-self: center;'></image>
+      <label style="font-size:28rpx;color:green;align-self: center;"> call</label>
     </view>
   </view>
+</view>
+
+<view class="location" bindtap='openlocation' data-latitude="{{article.location_latitude}}" data-longitude="{{article.location_longitude}}" wx:if="{{article.location != '' && article.location != null && article.location_latitude != null && article.location_longitude != null}}">
+  <image src='/images/map.png' style='width:30rpx;height:30rpx;align-self: center;'></image>
+  <text>{{article.location}}-{{article.location_name}}（距离我 {{article.distance/1000}}km）</text>
 </view>
 
 <view class="body">
@@ -50,7 +61,7 @@
 
 <!-- 留言区 -->
 <view class="message" wx:if="{{article.comments.length > 0 || article.prises.length > 0}}">
-  <view class="stars" wx:if="{{article.prises.length > 0}}">
+  <view class="stars {{article.comments.length>0?'stars_border':''}}" wx:if="{{article.prises.length > 0}}">
     <image src="/images/like-fill.png" class="star-img"></image>
     <text wx:for="{{article.prises}}" wx:key="{{index}}">
       <text> {{item.from}} </text>

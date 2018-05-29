@@ -66,12 +66,11 @@ article{
   display:flex;
 }
 
-.right{
-  width:auto;
-  float:right;
-  height: 70rpx;
-  text-align: right;
-  margin-right: 20rpx;
+/* 位置 */
+.location {
+  margin-left: 20rpx;
+  font-size: 30rpx;
+  display: flex;
 }
 
 /* 内容 */
@@ -186,11 +185,14 @@ article{
 }
 
 .stars {
-  border-bottom-style:double;
-  border-width:1rpx;
-  border-color: gray;
   padding-bottom: 10rpx;
   word-break:break-all;
+}
+
+.stars_border {
+  border-bottom-style:double;
+  border-width:1rpx;
+  border-color: #CCCDD0;
 }
 
 .star-img {

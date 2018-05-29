@@ -5,7 +5,7 @@
   <view class="header-wrap">
     <view class="header">
       <view class="fatie">
-        发帖
+        发布
       </view>
     </view>
   </view>
@@ -19,10 +19,16 @@
 
       <view class="basic-info">
         <view class="basic-info-phone">
+          <image src="/images/phone.png" style='height:40rpx;width:40rpx;margin-right:10rpx'></image>
+          <text>电话：</text>
           <input name="telphone" value="{{ telphone }}" placeholder="例:13916752109或0712-3614072" class="input-name"></input>
         </view>
+        <view class="basic-info-split"></view>
         <view class="basic-info-loaction">
-          <input name="location" value="{{ location }}" placeholder="地理位置" class="input-name"></input>
+          <image src="/images/map.png" style='height:40rpx;width:40rpx;margin-right:10rpx'></image>
+          <text>位置：</text>
+          <input name="location" value="{{ location }}" placeholder="{{location}}" class="input-name2" disabled='disabled' bindtap="chooselocation"></input>
+          <text style='font-size:30rpx; color:gray;' bindtap="chooselocation"> >> </text>
         </view>
       </view>
 
@@ -50,7 +56,7 @@
   <view class="footer-wrap">
     <view class="footer-space"></view>
     <view class="footer-fb">
-      <button style='background:#E7759A' class="footer-fb-btn" type="primary" form-type="submit">发　布</button>
+      <button style='background:green' class="footer-fb-btn" type="primary" form-type="submit">发　布</button>
     </view>
   </view>
 </form>

@@ -5,15 +5,15 @@
     "pages/mine/mine"
   ],
   "window":{
-    "navigationBarBackgroundColor": "#EF7B7B",
+    "navigationBarBackgroundColor": "#283149",
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "蔷薇有你",
+    "navigationBarTitleText": "免费信息发布-分享",
     "backgroundColor": "#000000",
     "backgroundTextStyle": "light"
   },
   "tabBar": {
     "color": "#8a8a8a",
-    "selectedColor": "#EF7B7B",
+    "selectedColor": "#00818a",
     "list": [
       {
         "pagePath": "pages/index/index",

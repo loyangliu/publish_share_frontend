@@ -23,23 +23,6 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    // 组件绑定的关注事件处理函数
-    toggleSubscribe(event) {
-      // 验证登陆
-      var api_token = wx.getStorageSync('api_token');
-      if (!api_token || app.globalData.userInfo == null) {
-        app.doLogin()
-        return;
-      };
-
-      var eventDetail = {
-        article_id: this.data.article.id,
-        is_subscribe: this.data.article.isSubscribe
-      }
-
-      this.triggerEvent("subscribe", eventDetail, null)
-    },
-
     /**
      * 点击显示消息框
      */
@@ -163,6 +146,28 @@ Component({
     toggleSubscribe(event) {
       this.setData({
         isShowSubscribe: !this.data.isShowSubscribe
+      })
+    },
+
+    /**
+     * 打开地图
+     */
+    openlocation(event) {
+      var latitude = parseFloat(event.currentTarget.dataset.latitude)
+      var longitude = parseFloat(event.currentTarget.dataset.longitude)
+
+      wx.openLocation({
+        latitude: latitude,
+        longitude: longitude,
+      })
+    },
+
+    /**
+     * 拨打电话
+     */
+    bailtelphone(event) {
+      wx.makePhoneCall({
+        phoneNumber: event.currentTarget.dataset.telphone,
       })
     }
   }
