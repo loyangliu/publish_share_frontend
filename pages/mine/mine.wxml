@@ -20,8 +20,8 @@
 
     <view class="personal_articles">
       <view class="personal_articles_tie">累计发帖：{{basicInfo.publis_num}} 次</view>
-      <view class="personal_articles_tie">累计评论：3 次</view>
-      <view class="personal_articles_tie">累计关注：3 次</view>
+      <view class="personal_articles_tie">累计评论：{{basicInfo.comment_num}} 次</view>
+      <view class="personal_articles_tie">累计关注：{{basicInfo.subscribe_num}} 次</view>
     </view>
   </view>
 </view>
